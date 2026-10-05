@@ -1,0 +1,106 @@
+<div class="register-container">
+
+  <div class="register-card">
+
+    <h1>Create Account</h1>
+
+    <p class="subtitle">
+      Join Ekub Circle
+    </p>
+
+    <form
+      [formGroup]="registerForm"
+      (ngSubmit)="register()"
+    >
+
+      <!-- Full Name -->
+      <div class="form-group">
+
+        <label for="fullName">Full Name</label>
+
+        <input
+          id="fullName"
+          type="text"
+          formControlName="fullName"
+          placeholder="Enter your full name"
+        />
+
+        @if (
+          registerForm.controls.fullName.touched &&
+          registerForm.controls.fullName.invalid
+        ) {
+          <small>Full name is required.</small>
+        }
+
+      </div>
+
+      <!-- Phone Number -->
+      <div class="form-group">
+
+        <label for="phoneNumber">Phone Number</label>
+
+        <input
+          id="phoneNumber"
+          type="tel"
+          formControlName="phoneNumber"
+          placeholder="0912345678"
+        />
+
+        @if (
+          registerForm.controls.phoneNumber.touched &&
+          registerForm.controls.phoneNumber.invalid
+        ) {
+          <small>Enter a valid 10-digit phone number.</small>
+        }
+
+      </div>
+
+      <!-- Password -->
+      <div class="form-group">
+
+        <label for="password">Password</label>
+
+        <input
+          id="password"
+          type="password"
+          formControlName="password"
+          placeholder="Enter your password"
+        />
+
+        @if (
+          registerForm.controls.password.touched &&
+          registerForm.controls.password.invalid
+        ) {
+          <small>Password must be at least 6 characters.</small>
+        }
+
+      </div>
+
+      <!-- Confirm Password -->
+      <div class="form-group">
+
+        <label for="confirmPassword">Confirm Password</label>
+
+        <input
+          id="confirmPassword"
+          type="password"
+          formControlName="confirmPassword"
+          placeholder="Confirm your password"
+        />
+
+      </div>
+
+      <button type="submit">
+        Create Account
+      </button>
+
+    </form>
+
+    <p class="login-text">
+      Already have an account?
+      <a routerLink="/login">Login</a>
+    </p>
+
+  </div>
+
+</div>

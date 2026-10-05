@@ -1,0 +1,62 @@
+<div class="rounds-page">
+
+  <h1>Rounds</h1>
+
+  <p class="subtitle">
+    View the rounds of your Ekub circles and their current status.
+  </p>
+
+  <div class="rounds-table-container">
+
+    <table>
+
+      <thead>
+        <tr>
+          <th>Round ID</th>
+          <th>Circle</th>
+          <th>Round Number</th>
+          <th>Start Date</th>
+          <th>End Date</th>
+          <th>Recipient</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+
+      <tbody>
+
+        @for (round of rounds; track round.id) {
+          <tr>
+
+            <td>{{ round.id }}</td>
+
+            <td>{{ round.circleId }}</td>
+
+            <td>Round {{ round.roundNumber }}</td>
+
+            <td>{{ round.startDate }}</td>
+
+            <td>{{ round.endDate }}</td>
+
+            <td>{{ round.recipientId }}</td>
+
+            <td>
+              <span
+                class="status"
+                [class.upcoming]="round.status === 'upcoming'"
+                [class.active]="round.status === 'active'"
+                [class.completed]="round.status === 'completed'"
+              >
+                {{ round.status }}
+              </span>
+            </td>
+
+          </tr>
+        }
+
+      </tbody>
+
+    </table>
+
+  </div>
+
+</div>

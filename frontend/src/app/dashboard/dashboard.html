@@ -1,0 +1,213 @@
+<div class="dashboard">
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+
+    <div class="logo">
+      Ekub<span>Circle</span>
+    </div>
+
+    <nav>
+
+      <a routerLink="/dashboard" class="active">
+        Dashboard
+      </a>
+
+      <a routerLink="/circles">
+        My Circles
+      </a>
+
+      <a routerLink="/payment">
+        Payments
+      </a>
+
+      <a routerLink="/rounds">
+        Rounds
+      </a>
+
+      <a routerLink="/payout">
+        Payouts
+      </a>
+
+    </nav>
+
+    <button class="logout">
+      Logout
+    </button>
+
+  </aside>
+
+
+  <!-- Main content -->
+  <main class="main-content">
+
+    <header class="topbar">
+
+      <div>
+        <p class="welcome-small">Welcome back</p>
+        <h1>{{ memberName }}</h1>
+      </div>
+
+      <div class="profile">
+        <div class="avatar">
+          {{ memberName.charAt(0) }}
+        </div>
+      </div>
+
+    </header>
+
+
+    <!-- Summary cards -->
+    <section class="summary-grid">
+
+      <div class="summary-card">
+
+        <div class="icon">◉</div>
+
+        <div>
+          <p>My Circles</p>
+          <h2>{{ totalCircles }}</h2>
+        </div>
+
+      </div>
+
+
+      <div class="summary-card">
+
+        <div class="icon">↻</div>
+
+        <div>
+          <p>Active Rounds</p>
+          <h2>{{ activeRounds }}</h2>
+        </div>
+
+      </div>
+
+
+      <div class="summary-card">
+
+        <div class="icon">₿</div>
+
+        <div>
+          <p>Total Contributed</p>
+          <h2>{{ totalContributed | number }}</h2>
+          <small>ETB</small>
+        </div>
+
+      </div>
+
+
+      <div class="summary-card highlight">
+
+        <div class="icon">→</div>
+
+        <div>
+          <p>Next Payment</p>
+          <h2>{{ nextPayment | number }}</h2>
+          <small>ETB</small>
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- Main sections -->
+    <section class="content-grid">
+
+      <!-- My circles -->
+      <div class="panel">
+
+        <div class="panel-header">
+
+          <div>
+            <h2>My Circles</h2>
+            <p>Your active Ekub circles</p>
+          </div>
+
+          <a routerLink="/circles">
+            View all
+          </a>
+
+        </div>
+
+
+        <div class="circle-item">
+
+          <div class="circle-icon">
+            E
+          </div>
+
+          <div class="circle-info">
+
+            <h3>Family Ekub</h3>
+
+            <p>
+              Contribution: 2,500 ETB
+            </p>
+
+          </div>
+
+          <span class="status">
+            Active
+          </span>
+
+        </div>
+
+
+        <div class="circle-item">
+
+          <div class="circle-icon">
+            C
+          </div>
+
+          <div class="circle-info">
+
+            <h3>Community Circle</h3>
+
+            <p>
+              Contribution: 5,000 ETB
+            </p>
+
+          </div>
+
+          <span class="status">
+            Active
+          </span>
+
+        </div>
+
+      </div>
+
+
+      <!-- Next payment -->
+      <div class="panel payment-panel">
+
+        <div class="panel-header">
+
+          <div>
+            <h2>Next Payment</h2>
+            <p>Your upcoming contribution</p>
+          </div>
+
+        </div>
+
+        <div class="payment-amount">
+          {{ nextPayment | number }}
+          <span>ETB</span>
+        </div>
+
+        <p class="payment-date">
+          Due soon
+        </p>
+<button class="pay-button" routerLink="/payment">
+  Make Payment
+</button>
+
+      </div>
+
+    </section>
+
+  </main>
+
+</div>
