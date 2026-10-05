@@ -1,0 +1,196 @@
+{
+	"info": {
+		"_postman_id": "ekub-api-collection",
+		"name": "Ekub API",
+		"description": "Postman collection for Ekub API endpoints including Authentication, Circle Management, and Joining Circles.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:5000",
+			"type": "string"
+		}
+	],
+	"item": [
+		{
+			"name": "Authentication",
+			"item": [
+				{
+					"name": "Sign Up",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"username\": \"johndoe\",\n  \"firstName\": \"John\",\n  \"middleName\": \"A\",\n  \"lastName\": \"Doe\",\n  \"phonenumber\": \"+251911223344\",\n  \"password\": \"Password123!\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/auth/signup",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"auth",
+								"signup"
+							]
+						}
+					}
+				},
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"username\": \"johndoe\",\n  \"password\": \"Password123!\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/auth/login",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"auth",
+								"login"
+							]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Circles",
+			"item": [
+				{
+					"name": "Get All Circles",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/circles",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"circles"
+							]
+						}
+					}
+				},
+				{
+					"name": "Get Available Circles",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/circles/available",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"circles",
+								"available"
+							]
+						}
+					}
+				},
+				{
+					"name": "Get My Joined Circles",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/circles/my-circles/1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"circles",
+								"my-circles",
+								"1"
+							]
+						}
+					}
+				},
+				{
+					"name": "Create Circle",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Weekly Ekub\",\n  \"contributionAmount\": 1000.00,\n  \"maxMembers\": 10,\n  \"contributionIntervalDays\": 7,\n  \"organizerId\": 1\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/circles",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"circles"
+							]
+						}
+					}
+				},
+				{
+					"name": "Join Circle",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"memberId\": 1\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/circles/1/join",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"circles",
+								"1",
+								"join"
+							]
+						}
+					}
+				}
+			]
+		}
+	]
+}

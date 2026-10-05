@@ -12,11 +12,11 @@ namespace Ekub.Api.Controllers;
 [Route("api/v{version:apiVersion}/circles")]
 public class CircleController : ControllerBase
 {
-    private readonly IMediator _mediator;
+    private readonly IMediator _circleMediator;
 
     public CircleController(IMediator mediator)
     {
-        _mediator = mediator;
+        _circleMediator = mediator;
     }
 
     [HttpGet]
@@ -24,7 +24,7 @@ public class CircleController : ControllerBase
     public async Task<IActionResult> GetCircles(CancellationToken cancellationToken)
     {
         var query = new GetCirclesQuery();
-        var result = await _mediator.Send(query, cancellationToken);
+        var result = await _circleMediator.Send(query, cancellationToken);
 
         return StatusCode(result.StatusCode, result.Value);
     }
@@ -37,7 +37,7 @@ public class CircleController : ControllerBase
         CancellationToken cancellationToken)
     {
         var command = new CreateCircleCommand(request);
-        var result = await _mediator.Send(command, cancellationToken);
+        var result = await _circleMediator.Send(command, cancellationToken);
 
         if (!result.IsSuccess)
         {
