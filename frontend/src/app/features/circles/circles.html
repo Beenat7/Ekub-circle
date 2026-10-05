@@ -1,0 +1,185 @@
+<section class="circles-page">
+
+  <!-- Page Header -->
+  <div class="page-header">
+
+    <div>
+      <h1>Ekub Circles</h1>
+      <p>Manage your rotating Ekub circles.</p>
+    </div>
+
+    <a
+      mat-flat-button
+      color="primary"
+      routerLink="/circles/new">
+      <mat-icon>add</mat-icon>
+      Create Circle
+    </a>
+
+  </div>
+
+
+  <!-- Error -->
+  @if (error()) {
+
+    <mat-card class="error-card">
+
+      <mat-card-content>
+        <mat-icon>error_outline</mat-icon>
+        <span>{{ error() }}</span>
+      </mat-card-content>
+
+    </mat-card>
+
+  }
+
+
+  <!-- Loading -->
+  @if (loading()) {
+
+    <div class="loading-container">
+
+      <mat-spinner diameter="40"></mat-spinner>
+
+      <p>Loading circles...</p>
+
+    </div>
+
+  }
+
+
+  <!-- Circles -->
+  @if (!loading() && !error()) {
+
+    @if (circles().length === 0) {
+
+      <mat-card class="empty-card">
+
+        <mat-card-content>
+
+          <mat-icon>groups</mat-icon>
+
+          <h2>No circles found</h2>
+
+          <p>
+            Get started by creating your first Ekub circle.
+          </p>
+
+          <a
+            mat-flat-button
+            color="primary"
+            routerLink="/circles/new">
+            <mat-icon>add</mat-icon>
+            Create Circle
+          </a>
+
+        </mat-card-content>
+
+      </mat-card>
+
+    } @else {
+
+      <div class="circles-grid">
+
+        @for (circle of circles(); track circle.id) {
+
+          <mat-card class="circle-card">
+
+            <mat-card-header>
+
+              <div mat-card-avatar class="circle-avatar">
+                <mat-icon>groups</mat-icon>
+              </div>
+
+              <mat-card-title>
+                {{ circle.name }}
+              </mat-card-title>
+
+              <mat-card-subtitle>
+                {{ circle.contributionAmount }} Birr contribution
+              </mat-card-subtitle>
+
+            </mat-card-header>
+
+
+            <mat-card-content>
+
+              <div class="circle-info">
+
+                <div class="info-row">
+
+                  <mat-icon>payments</mat-icon>
+
+                  <div>
+                    <span class="info-label">Contribution</span>
+                    <strong>
+                      {{ circle.contributionAmount }} Birr
+                    </strong>
+                  </div>
+
+                </div>
+
+
+                <div class="info-row">
+
+                  <mat-icon>groups</mat-icon>
+
+                  <div>
+                    <span class="info-label">Maximum Members</span>
+                    <strong>
+                      {{ circle.maxMembers }}
+                    </strong>
+                  </div>
+
+                </div>
+
+
+                <div class="info-row">
+
+                  <mat-icon>event_repeat</mat-icon>
+
+                  <div>
+                    <span class="info-label">Contribution Interval</span>
+                    <strong>
+                      Every {{ circle.contributionIntervalDays }} days
+                    </strong>
+                  </div>
+
+                </div>
+
+              </div>
+
+
+              <div class="status">
+
+                <mat-chip>
+                  {{ circle.status }}
+                </mat-chip>
+
+              </div>
+
+            </mat-card-content>
+
+
+            <mat-card-actions>
+
+              <a
+                mat-button
+                [routerLink]="['/circles', circle.id]">
+                <mat-icon>visibility</mat-icon>
+                View Circle
+              </a>
+
+            </mat-card-actions>
+
+          </mat-card>
+
+        }
+
+      </div>
+
+    }
+
+  }
+
+</section>
