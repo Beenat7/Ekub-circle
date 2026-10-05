@@ -54,7 +54,7 @@ export class Login {
 
     this.auth.login(data).subscribe({
       next: (response) => {
-        console.log('Login successful:', response);
+        localStorage.setItem('memberId', String(response.id));
 
         this.router.navigate(['/dashboard']);
       },

@@ -9,6 +9,7 @@ import { Rounds } from './rounds/rounds';
 
 import { Circles } from './features/circles/circles';
 import { CircleForm } from './features/circle-form/circle-form';
+import { Members } from './features/members/members';
 
 export const routes: Routes = [
   {
@@ -42,6 +43,10 @@ export const routes: Routes = [
   {
     path: 'circles/new',
     component: CircleForm
+  },
+  {
+    path: 'members',
+    component: Members
   },
   {
     path: '',

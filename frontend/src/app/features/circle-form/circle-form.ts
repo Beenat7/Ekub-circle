@@ -10,6 +10,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 import { CircleService } from '../../services/circle';
+import { CreateCircleRequest } from '../../models/circle';
 
 @Component({
   selector: 'app-circle-form',
@@ -35,10 +36,11 @@ export class CircleForm {
   readonly error = signal<string | null>(null);
 
   readonly circleForm = this.formBuilder.nonNullable.group({
-    name: ['', Validators.required],
-    contributionAmount: [0, [Validators.required, Validators.min(1)]],
-    maxMembers: [2, [Validators.required, Validators.min(2)]],
-    contributionIntervalDays: [7, [Validators.required, Validators.min(1)]]
+    name: ['', [Validators.required, Validators.minLength(2)]],
+    contributionAmount: [444, [Validators.required, Validators.min(1)]],
+    maxMembers: [222, [Validators.required, Validators.min(2)]],
+    contributionIntervalDays: [3, [Validators.required, Validators.min(1)]],
+    organizerId: [1, [Validators.required, Validators.min(1)]]
   });
 
   onSubmit(): void {
@@ -50,14 +52,25 @@ export class CircleForm {
     this.loading.set(true);
     this.error.set(null);
 
-    const request = this.circleForm.getRawValue();
+    const raw = this.circleForm.getRawValue();
+
+    const request: CreateCircleRequest = {
+      name: raw.name.trim(),
+      contributionAmount: Number(raw.contributionAmount),
+      maxMembers: Number(raw.maxMembers),
+      contributionIntervalDays: Number(raw.contributionIntervalDays),
+      organizerId: Number(raw.organizerId)
+    };
 
     this.circleService.create(request).subscribe({
       next: () => {
+        this.loading.set(false);
         this.router.navigate(['/circles']);
       },
-      error: () => {
-        this.error.set('Failed to create circle.');
+      error: (err) => {
+        console.error('Failed to create circle:', err);
+        const msg = err?.error?.message || (typeof err?.error === 'string' ? err.error : 'Failed to create circle.');
+        this.error.set(msg);
         this.loading.set(false);
       }
     });

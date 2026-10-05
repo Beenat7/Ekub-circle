@@ -20,7 +20,7 @@
 /* Main card */
 .register-card {
   width: 100%;
-  max-width: 460px;
+  max-width: 520px;
   padding: 42px;
   background: #fffdf8;
 
@@ -69,27 +69,62 @@ h1 {
 
 
 /* Subtitle */
-.register-card > p {
+.register-card > p.subtitle {
   text-align: center;
 
   color: #777267;
 
   font-size: 15px;
 
-  margin-bottom: 32px;
+  margin-bottom: 24px;
+}
+
+/* Alerts */
+.alert {
+  padding: 12px 16px;
+  border-radius: 10px;
+  font-size: 14px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.alert-danger {
+  background-color: #fde8e8;
+  color: #9b1c1c;
+  border: 1px solid #f8b4b4;
+}
+
+.alert-success {
+  background-color: #def7ec;
+  color: #03543f;
+  border: 1px solid #84e1bc;
 }
 
 
-/* Form groups */
+/* Form layout */
 form {
   display: flex;
   flex-direction: column;
 }
 
+.form-row {
+  display: flex;
+  gap: 16px;
+}
+
+.form-row .form-group {
+  flex: 1;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 16px;
+}
 
 /* Labels */
 label {
-  margin-bottom: 8px;
+  margin-bottom: 6px;
 
   color: #29483e;
 
@@ -103,9 +138,7 @@ input {
   width: 100%;
   box-sizing: border-box;
 
-  padding: 14px 16px;
-
-  margin-bottom: 20px;
+  padding: 12px 14px;
 
   border: 1px solid #d8d4c9;
   border-radius: 11px;
@@ -114,7 +147,7 @@ input {
 
   color: #243c35;
 
-  font-size: 15px;
+  font-size: 14.5px;
 
   transition:
     border-color 0.2s ease,
@@ -141,12 +174,19 @@ input:focus {
     0 0 0 4px rgba(194, 151, 62, 0.12);
 }
 
+/* Validation message */
+small {
+  color: #c81e1e;
+  font-size: 12px;
+  margin-top: 4px;
+}
+
 
 /* Create Account button */
 button {
   width: 100%;
 
-  margin-top: 4px;
+  margin-top: 8px;
 
   padding: 14px 20px;
 
@@ -170,7 +210,7 @@ button {
 
 
 /* Button hover */
-button:hover {
+button:hover:not(:disabled) {
   background: #0f4938;
 
   transform: translateY(-2px);
@@ -181,8 +221,13 @@ button:hover {
 
 
 /* Button click */
-button:active {
+button:active:not(:disabled) {
   transform: translateY(0);
+}
+
+button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
 }
 
 
@@ -229,6 +274,11 @@ a:hover {
   .register-card {
     padding: 32px 24px;
     border-radius: 18px;
+  }
+
+  .form-row {
+    flex-direction: column;
+    gap: 0;
   }
 
   h1 {

@@ -10,14 +10,23 @@ using Ekub.Application.Common.Persistence;
 using Ekub.Domain.Entities;
 using Ekub.Infrastructure.Persistence;
 
-
 var builder = WebApplication.CreateBuilder(args);
 
 // Controllers
 builder.Services.AddControllers();
 
-// EF Core
+// CORS
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowFrontend", policy =>
+    {
+        policy.AllowAnyOrigin()
+              .AllowAnyHeader()
+              .AllowAnyMethod();
+    });
+});
 
+// EF Core
 var connectionString = builder.Configuration.GetConnectionString("EkubDatabase");
 if (string.IsNullOrWhiteSpace(connectionString))
 {
@@ -28,12 +37,16 @@ if (string.IsNullOrWhiteSpace(connectionString))
 builder.Services.AddDbContext<EkubDbContext>(options =>
     options.UseNpgsql(connectionString)
 );
+
+// Persistence Stores
 builder.Services.AddScoped<IMemberAuthStore, MemberAuthStore>();
 builder.Services.AddScoped<ICircleStore, CircleStore>();
-// --------------------------------------------------
-// MediatR
-// --------------------------------------------------
+builder.Services.AddScoped<ICircleMemberStore, CircleMemberStore>();
+builder.Services.AddScoped<IPaymentStore, PaymentStore>();
+builder.Services.AddScoped<IPayoutStore, PayoutStore>();
+builder.Services.AddScoped<IRoundStore, RoundStore>();
 
+// MediatR
 builder.Services.AddMediatR(config =>
 {
     config.RegisterServicesFromAssembly(
@@ -43,10 +56,7 @@ builder.Services.AddMediatR(config =>
         typeof(ValidationBehavior<,>));
 });
 
-// --------------------------------------------------
 // API Versioning
-// --------------------------------------------------
-
 builder.Services
     .AddApiVersioning(options =>
     {
@@ -60,24 +70,19 @@ builder.Services
         options.GroupNameFormat = "'v'VVV";
         options.SubstituteApiVersionInUrl = true;
     });
-// --------------------------------------------------
-// FluentValidation
-// --------------------------------------------------
 
+// FluentValidation
 builder.Services.AddValidatorsFromAssembly(
     typeof(SignupCommand).Assembly);
 
-// --------------------------------------------------
 // Password hashing
-// --------------------------------------------------
-
 builder.Services.AddScoped<
     IPasswordHasher<Member>,
     PasswordHasher<Member>>();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+app.UseCors("AllowFrontend");
 
 app.UseHttpsRedirection();
 

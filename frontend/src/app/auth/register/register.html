@@ -8,90 +8,145 @@
       Join Ekub Circle
     </p>
 
+    @if (errorMessage) {
+      <div class="alert alert-danger">
+        {{ errorMessage }}
+      </div>
+    }
+
+    @if (successMessage) {
+      <div class="alert alert-success">
+        {{ successMessage }}
+      </div>
+    }
+
     <form
       [formGroup]="registerForm"
       (ngSubmit)="register()"
     >
 
-      <!-- Full Name -->
-      <div class="form-group">
+      <!-- First Name & Middle Name -->
+      <div class="form-row">
+        <div class="form-group">
+          <label for="firstName">First Name *</label>
+          <input
+            id="firstName"
+            type="text"
+            formControlName="firstName"
+            placeholder="Abreham"
+          />
+          @if (
+            registerForm.controls.firstName.touched &&
+            registerForm.controls.firstName.invalid
+          ) {
+            <small>First name is required.</small>
+          }
+        </div>
 
-        <label for="fullName">Full Name</label>
+        <div class="form-group">
+          <label for="middleName">Middle Name</label>
+          <input
+            id="middleName"
+            type="text"
+            formControlName="middleName"
+            placeholder="Yeshitila"
+          />
+        </div>
+      </div>
 
-        <input
-          id="fullName"
-          type="text"
-          formControlName="fullName"
-          placeholder="Enter your full name"
-        />
+      <!-- Last Name & Username -->
+      <div class="form-row">
+        <div class="form-group">
+          <label for="lastName">Last Name *</label>
+          <input
+            id="lastName"
+            type="text"
+            formControlName="lastName"
+            placeholder="Test"
+          />
+          @if (
+            registerForm.controls.lastName.touched &&
+            registerForm.controls.lastName.invalid
+          ) {
+            <small>Last name is required.</small>
+          }
+        </div>
 
-        @if (
-          registerForm.controls.fullName.touched &&
-          registerForm.controls.fullName.invalid
-        ) {
-          <small>Full name is required.</small>
-        }
-
+        <div class="form-group">
+          <label for="username">Username *</label>
+          <input
+            id="username"
+            type="text"
+            formControlName="username"
+            placeholder="abraham"
+          />
+          @if (
+            registerForm.controls.username.touched &&
+            registerForm.controls.username.invalid
+          ) {
+            <small>Username must be at least 3 characters.</small>
+          }
+        </div>
       </div>
 
       <!-- Phone Number -->
       <div class="form-group">
-
-        <label for="phoneNumber">Phone Number</label>
-
+        <label for="phoneNumber">Phone Number *</label>
         <input
           id="phoneNumber"
           type="tel"
           formControlName="phoneNumber"
           placeholder="0912345678"
         />
-
         @if (
           registerForm.controls.phoneNumber.touched &&
           registerForm.controls.phoneNumber.invalid
         ) {
-          <small>Enter a valid 10-digit phone number.</small>
+          <small>Enter a valid 10-digit phone number (e.g. 0912345678).</small>
         }
-
       </div>
 
-      <!-- Password -->
-      <div class="form-group">
+      <!-- Password & Confirm Password -->
+      <div class="form-row">
+        <div class="form-group">
+          <label for="password">Password *</label>
+          <input
+            id="password"
+            type="password"
+            formControlName="password"
+            placeholder="Min. 8 characters"
+          />
+          @if (
+            registerForm.controls.password.touched &&
+            registerForm.controls.password.invalid
+          ) {
+            <small>Password must be at least 8 characters.</small>
+          }
+        </div>
 
-        <label for="password">Password</label>
+        <div class="form-group">
+          <label for="confirmPassword">Confirm Password *</label>
+          <input
+            id="confirmPassword"
+            type="password"
+            formControlName="confirmPassword"
+            placeholder="Re-enter password"
+          />
+          @if (
+            registerForm.controls.confirmPassword.touched &&
+            registerForm.controls.confirmPassword.invalid
+          ) {
+            <small>Please confirm your password.</small>
+          }
+        </div>
+      </div>
 
-        <input
-          id="password"
-          type="password"
-          formControlName="password"
-          placeholder="Enter your password"
-        />
-
-        @if (
-          registerForm.controls.password.touched &&
-          registerForm.controls.password.invalid
-        ) {
-          <small>Password must be at least 6 characters.</small>
+      <button type="submit" [disabled]="isLoading">
+        @if (isLoading) {
+          Creating Account...
+        } @else {
+          Create Account
         }
-
-      </div>
-
-      <!-- Confirm Password -->
-      <div class="form-group">
-
-        <label for="confirmPassword">Confirm Password</label>
-
-        <input
-          id="confirmPassword"
-          type="password"
-          formControlName="confirmPassword"
-          placeholder="Confirm your password"
-        />
-
-      </div>
-
-      <button type="submit">
-        Create Account
       </button>
 
     </form>

@@ -35,10 +35,17 @@ export class Circles {
   }
 
   private loadCircles(): void {
+    const memberId = localStorage.getItem('memberId');
+    if (!memberId) {
+      this.error.set('Unable to identify your member account. Please log in again.');
+      this.loading.set(false);
+      return;
+    }
+
     this.loading.set(true);
     this.error.set(null);
 
-    this.circleService.getAll().subscribe({
+    this.circleService.getByMemberId(memberId).subscribe({
       next: (circles) => {
         this.circles.set(circles);
         this.loading.set(false);

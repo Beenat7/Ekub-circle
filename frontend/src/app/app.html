@@ -1,2 +1,24 @@
-<router-outlet></router-outlet>
+@if (showSidebar()) {
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="logo">Ekub<span>Circle</span></div>
 
+      <nav>
+        <a routerLink="/dashboard" routerLinkActive="active">Dashboard</a>
+        <a routerLink="/circles" routerLinkActive="active">My Circles</a>
+        <a routerLink="/members" routerLinkActive="active">Join Members</a>
+        <a routerLink="/payment" routerLinkActive="active">Payments</a>
+        <a routerLink="/rounds" routerLinkActive="active">Rounds</a>
+        <a routerLink="/payout" routerLinkActive="active">Payouts</a>
+      </nav>
+
+      <button class="logout" type="button" (click)="logout()">Logout</button>
+    </aside>
+
+    <main class="main-content">
+      <router-outlet></router-outlet>
+    </main>
+  </div>
+} @else {
+  <router-outlet></router-outlet>
+}

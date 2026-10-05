@@ -1,1 +1,166 @@
-<p>members works!</p>
+<section class="members-page">
+
+  <div class="page-header">
+    <div>
+      <h1>Circle Members</h1>
+      <p>Add members to an Ekub Circle and manage payout order numbers.</p>
+    </div>
+  </div>
+
+  @if (error()) {
+    <mat-card class="error-card">
+      <mat-card-content>
+        <mat-icon>error_outline</mat-icon>
+        <span>{{ error() }}</span>
+      </mat-card-content>
+    </mat-card>
+  }
+
+  @if (successMsg()) {
+    <mat-card class="success-card">
+      <mat-card-content>
+        <mat-icon>check_circle_outline</mat-icon>
+        <span>{{ successMsg() }}</span>
+      </mat-card-content>
+    </mat-card>
+  }
+
+  <div class="content-grid">
+
+    <!-- Add Member Form -->
+    <mat-card class="form-card">
+      <mat-card-header>
+        <div mat-card-avatar class="form-avatar">
+          <mat-icon>person_add</mat-icon>
+        </div>
+        <mat-card-title>Add Circle Member</mat-card-title>
+        <mat-card-subtitle>Assign a member to a circle with an order number.</mat-card-subtitle>
+      </mat-card-header>
+
+      <mat-card-content>
+        <form [formGroup]="memberForm" (ngSubmit)="onSubmit()" class="member-form">
+
+          <!-- Circle ID -->
+          <mat-form-field appearance="outline">
+            <mat-label>Circle ID</mat-label>
+            <mat-icon matPrefix>groups</mat-icon>
+            <input
+              matInput
+              type="number"
+              formControlName="circleId"
+              placeholder="1"
+              min="1"
+              (change)="loadMembers()">
+            @if (memberForm.controls.circleId.invalid && memberForm.controls.circleId.touched) {
+              <mat-error>Valid Circle ID is required.</mat-error>
+            }
+          </mat-form-field>
+
+          <!-- Member ID -->
+          <mat-form-field appearance="outline">
+            <mat-label>Member ID</mat-label>
+            <mat-icon matPrefix>person</mat-icon>
+            <input
+              matInput
+              type="number"
+              formControlName="memberId"
+              placeholder="5"
+              min="1">
+            @if (memberForm.controls.memberId.invalid && memberForm.controls.memberId.touched) {
+              <mat-error>Valid Member ID is required.</mat-error>
+            }
+          </mat-form-field>
+
+          <!-- Order Number -->
+          <mat-form-field appearance="outline">
+            <mat-label>Order Number</mat-label>
+            <mat-icon matPrefix>format_list_numbered</mat-icon>
+            <input
+              matInput
+              type="number"
+              formControlName="orderNumber"
+              placeholder="1"
+              min="1">
+            @if (memberForm.controls.orderNumber.invalid && memberForm.controls.orderNumber.touched) {
+              <mat-error>Valid Order Number is required.</mat-error>
+            }
+          </mat-form-field>
+
+          <button
+            mat-flat-button
+            color="primary"
+            type="submit"
+            [disabled]="submitting()">
+            @if (submitting()) {
+              <mat-spinner diameter="20"></mat-spinner>
+              Adding...
+            } @else {
+              <mat-icon>add</mat-icon>
+              Add Member
+            }
+          </button>
+
+        </form>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Circle Members Table -->
+    <mat-card class="table-card">
+      <mat-card-header>
+        <mat-card-title>Circle Members List</mat-card-title>
+        <mat-card-subtitle>Members registered for Circle #{{ memberForm.controls.circleId.value }}</mat-card-subtitle>
+      </mat-card-header>
+
+      <mat-card-content>
+        @if (loading()) {
+          <div class="loading-container">
+            <mat-spinner diameter="40"></mat-spinner>
+          </div>
+        } @else if (members().length === 0) {
+          <div class="empty-state">
+            <mat-icon>group_off</mat-icon>
+            <p>No members added to this circle yet.</p>
+          </div>
+        } @else {
+          <table mat-table [dataSource]="members()" class="members-table">
+
+            <ng-container matColumnDef="id">
+              <th mat-header-cell *matHeaderCellDef>ID</th>
+              <td mat-cell *matCellDef="let m">{{ m.id }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="circleId">
+              <th mat-header-cell *matHeaderCellDef>Circle ID</th>
+              <td mat-cell *matCellDef="let m">{{ m.circleId }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="memberId">
+              <th mat-header-cell *matHeaderCellDef>Member ID</th>
+              <td mat-cell *matCellDef="let m">{{ m.memberId }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="memberName">
+              <th mat-header-cell *matHeaderCellDef>Name</th>
+              <td mat-cell *matCellDef="let m">{{ m.memberName || ('Member #' + m.memberId) }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="orderNumber">
+              <th mat-header-cell *matHeaderCellDef>Order #</th>
+              <td mat-cell *matCellDef="let m">{{ m.orderNumber }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="joinedAt">
+              <th mat-header-cell *matHeaderCellDef>Joined At</th>
+              <td mat-cell *matCellDef="let m">{{ m.joinedAt | date:'short' }}</td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+          </table>
+        }
+      </mat-card-content>
+    </mat-card>
+
+  </div>
+
+</section>

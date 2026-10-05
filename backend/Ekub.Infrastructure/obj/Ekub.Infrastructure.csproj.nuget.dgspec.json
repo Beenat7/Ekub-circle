@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\user\\Desktop\\ekub\\backend\\Ekub.Infrastructure\\Ekub.Infrastructure.csproj": {}
+    "C:\\Users\\user\\Desktop\\test\\Ekub-circle\\backend\\Ekub.Infrastructure\\Ekub.Infrastructure.csproj": {}
   },
   "projects": {
-    "C:\\Users\\user\\Desktop\\ekub\\backend\\Ekub.Application\\Ekub.Application.csproj": {
+    "C:\\Users\\user\\Desktop\\test\\Ekub-circle\\backend\\Ekub.Application\\Ekub.Application.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\user\\Desktop\\ekub\\backend\\Ekub.Application\\Ekub.Application.csproj",
+        "projectUniqueName": "C:\\Users\\user\\Desktop\\test\\Ekub-circle\\backend\\Ekub.Application\\Ekub.Application.csproj",
         "projectName": "Ekub.Application",
-        "projectPath": "C:\\Users\\user\\Desktop\\ekub\\backend\\Ekub.Application\\Ekub.Application.csproj",
+        "projectPath": "C:\\Users\\user\\Desktop\\test\\Ekub-circle\\backend\\Ekub.Application\\Ekub.Application.csproj",
         "packagesPath": "C:\\Users\\user\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\user\\Desktop\\ekub\\backend\\Ekub.Application\\obj\\",
+        "outputPath": "C:\\Users\\user\\Desktop\\test\\Ekub-circle\\backend\\Ekub.Application\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\user\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -27,8 +27,8 @@
             "framework": "net10.0",
             "targetAlias": "net10.0",
             "projectReferences": {
-              "C:\\Users\\user\\Desktop\\ekub\\backend\\Ekub.Domain\\Ekub.Domain.csproj": {
-                "projectPath": "C:\\Users\\user\\Desktop\\ekub\\backend\\Ekub.Domain\\Ekub.Domain.csproj"
+              "C:\\Users\\user\\Desktop\\test\\Ekub-circle\\backend\\Ekub.Domain\\Ekub.Domain.csproj": {
+                "projectPath": "C:\\Users\\user\\Desktop\\test\\Ekub-circle\\backend\\Ekub.Domain\\Ekub.Domain.csproj"
               }
             }
           }
@@ -500,14 +500,14 @@
         }
       }
     },
-    "C:\\Users\\user\\Desktop\\ekub\\backend\\Ekub.Domain\\Ekub.Domain.csproj": {
+    "C:\\Users\\user\\Desktop\\test\\Ekub-circle\\backend\\Ekub.Domain\\Ekub.Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\user\\Desktop\\ekub\\backend\\Ekub.Domain\\Ekub.Domain.csproj",
+        "projectUniqueName": "C:\\Users\\user\\Desktop\\test\\Ekub-circle\\backend\\Ekub.Domain\\Ekub.Domain.csproj",
         "projectName": "Ekub.Domain",
-        "projectPath": "C:\\Users\\user\\Desktop\\ekub\\backend\\Ekub.Domain\\Ekub.Domain.csproj",
+        "projectPath": "C:\\Users\\user\\Desktop\\test\\Ekub-circle\\backend\\Ekub.Domain\\Ekub.Domain.csproj",
         "packagesPath": "C:\\Users\\user\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\user\\Desktop\\ekub\\backend\\Ekub.Domain\\obj\\",
+        "outputPath": "C:\\Users\\user\\Desktop\\test\\Ekub-circle\\backend\\Ekub.Domain\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\user\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -835,14 +835,14 @@
         }
       }
     },
-    "C:\\Users\\user\\Desktop\\ekub\\backend\\Ekub.Infrastructure\\Ekub.Infrastructure.csproj": {
+    "C:\\Users\\user\\Desktop\\test\\Ekub-circle\\backend\\Ekub.Infrastructure\\Ekub.Infrastructure.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\user\\Desktop\\ekub\\backend\\Ekub.Infrastructure\\Ekub.Infrastructure.csproj",
+        "projectUniqueName": "C:\\Users\\user\\Desktop\\test\\Ekub-circle\\backend\\Ekub.Infrastructure\\Ekub.Infrastructure.csproj",
         "projectName": "Ekub.Infrastructure",
-        "projectPath": "C:\\Users\\user\\Desktop\\ekub\\backend\\Ekub.Infrastructure\\Ekub.Infrastructure.csproj",
+        "projectPath": "C:\\Users\\user\\Desktop\\test\\Ekub-circle\\backend\\Ekub.Infrastructure\\Ekub.Infrastructure.csproj",
         "packagesPath": "C:\\Users\\user\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\user\\Desktop\\ekub\\backend\\Ekub.Infrastructure\\obj\\",
+        "outputPath": "C:\\Users\\user\\Desktop\\test\\Ekub-circle\\backend\\Ekub.Infrastructure\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\user\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -858,11 +858,11 @@
             "framework": "net10.0",
             "targetAlias": "net10.0",
             "projectReferences": {
-              "C:\\Users\\user\\Desktop\\ekub\\backend\\Ekub.Application\\Ekub.Application.csproj": {
-                "projectPath": "C:\\Users\\user\\Desktop\\ekub\\backend\\Ekub.Application\\Ekub.Application.csproj"
+              "C:\\Users\\user\\Desktop\\test\\Ekub-circle\\backend\\Ekub.Application\\Ekub.Application.csproj": {
+                "projectPath": "C:\\Users\\user\\Desktop\\test\\Ekub-circle\\backend\\Ekub.Application\\Ekub.Application.csproj"
               },
-              "C:\\Users\\user\\Desktop\\ekub\\backend\\Ekub.Domain\\Ekub.Domain.csproj": {
-                "projectPath": "C:\\Users\\user\\Desktop\\ekub\\backend\\Ekub.Domain\\Ekub.Domain.csproj"
+              "C:\\Users\\user\\Desktop\\test\\Ekub-circle\\backend\\Ekub.Domain\\Ekub.Domain.csproj": {
+                "projectPath": "C:\\Users\\user\\Desktop\\test\\Ekub-circle\\backend\\Ekub.Domain\\Ekub.Domain.csproj"
               }
             }
           }

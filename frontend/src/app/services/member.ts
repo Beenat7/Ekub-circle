@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 import { API_CONFIG } from '../config/api.config';
-import { CircleMember } from '../models/circle-member';
+import { CircleMember, AddCircleMemberRequest } from '../models/circle-member';
 
 @Injectable({
   providedIn: 'root'
@@ -11,9 +11,13 @@ import { CircleMember } from '../models/circle-member';
 export class MemberService {
   private readonly http = inject(HttpClient);
 
-  private readonly apiUrl = `${API_CONFIG.baseUrl}/CircleMembers`;
+  private readonly apiUrl = `${API_CONFIG.baseUrl}/circle-members`;
 
-  getByCircleId(circleId: string): Observable<CircleMember[]> {
+  getByCircleId(circleId: string | number): Observable<CircleMember[]> {
     return this.http.get<CircleMember[]>(`${this.apiUrl}/circle/${circleId}`);
+  }
+
+  addMember(data: AddCircleMemberRequest): Observable<CircleMember> {
+    return this.http.post<CircleMember>(this.apiUrl, data);
   }
 }

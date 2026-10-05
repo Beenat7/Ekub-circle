@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "dmgRmRIlv20=",
+  "dgSpecHash": "6401sifGW9k=",
   "success": true,
-  "projectFilePath": "C:\\Users\\user\\Desktop\\ekub\\backend\\Ekub.Infrastructure\\Ekub.Infrastructure.csproj",
+  "projectFilePath": "C:\\Users\\user\\Desktop\\test\\Ekub-circle\\backend\\Ekub.Infrastructure\\Ekub.Infrastructure.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\user\\.nuget\\packages\\fluentvalidation\\12.1.1\\fluentvalidation.12.1.1.nupkg.sha512",
     "C:\\Users\\user\\.nuget\\packages\\fluentvalidation.dependencyinjectionextensions\\12.1.1\\fluentvalidation.dependencyinjectionextensions.12.1.1.nupkg.sha512",

@@ -29,6 +29,22 @@ public class CircleController : ControllerBase
         return StatusCode(result.StatusCode, result.Value);
     }
 
+    [HttpGet("{id:int}")]
+    [ProducesResponseType(typeof(CircleResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> GetCircleById(int id, CancellationToken cancellationToken)
+    {
+        var query = new Ekub.Application.Circles.Queries.GetCircleById.GetCircleByIdQuery(id);
+        var result = await _mediator.Send(query, cancellationToken);
+
+        if (!result.IsSuccess)
+        {
+            return StatusCode(result.StatusCode, new { message = result.Error });
+        }
+
+        return StatusCode(result.StatusCode, result.Value);
+    }
+
     [HttpPost]
     [ProducesResponseType(typeof(CircleResponse), StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]

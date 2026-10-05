@@ -52,6 +52,7 @@
         [formGroup]="circleForm"
         (ngSubmit)="onSubmit()">
 
+        <!-- Circle Name -->
         <mat-form-field appearance="outline">
           <mat-label>Circle Name</mat-label>
 
@@ -61,7 +62,7 @@
             matInput
             type="text"
             formControlName="name"
-            placeholder="e.g. Friends Ekub">
+            placeholder="e.g. abebe">
 
           @if (
             circleForm.controls.name.invalid &&
@@ -74,6 +75,7 @@
 
         </mat-form-field>
 
+        <!-- Contribution Amount -->
         <mat-form-field appearance="outline">
           <mat-label>Contribution Amount</mat-label>
 
@@ -83,6 +85,7 @@
             matInput
             type="number"
             formControlName="contributionAmount"
+            placeholder="444"
             min="1">
 
           <span matTextSuffix>Birr</span>
@@ -98,6 +101,7 @@
 
         </mat-form-field>
 
+        <!-- Maximum Members -->
         <mat-form-field appearance="outline">
           <mat-label>Maximum Members</mat-label>
 
@@ -107,6 +111,7 @@
             matInput
             type="number"
             formControlName="maxMembers"
+            placeholder="222"
             min="2">
 
           @if (
@@ -120,8 +125,9 @@
 
         </mat-form-field>
 
+        <!-- Contribution Interval -->
         <mat-form-field appearance="outline">
-          <mat-label>Contribution Interval</mat-label>
+          <mat-label>Contribution Interval (Days)</mat-label>
 
           <mat-icon matPrefix>event_repeat</mat-icon>
 
@@ -129,6 +135,7 @@
             matInput
             type="number"
             formControlName="contributionIntervalDays"
+            placeholder="3"
             min="1">
 
           <span matTextSuffix>days</span>
@@ -139,6 +146,30 @@
           ) {
             <mat-error>
               Interval must be at least 1 day.
+            </mat-error>
+          }
+
+        </mat-form-field>
+
+        <!-- Organizer ID -->
+        <mat-form-field appearance="outline">
+          <mat-label>Organizer ID</mat-label>
+
+          <mat-icon matPrefix>person</mat-icon>
+
+          <input
+            matInput
+            type="number"
+            formControlName="organizerId"
+            placeholder="1"
+            min="1">
+
+          @if (
+            circleForm.controls.organizerId.invalid &&
+            circleForm.controls.organizerId.touched
+          ) {
+            <mat-error>
+              Valid Organizer ID is required.
             </mat-error>
           }
 

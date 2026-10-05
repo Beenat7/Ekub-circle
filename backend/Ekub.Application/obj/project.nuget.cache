@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "Lyx82KL+Wyo=",
+  "dgSpecHash": "wpDizp+Qa+4=",
   "success": true,
-  "projectFilePath": "C:\\Users\\user\\Desktop\\ekub\\backend\\Ekub.Application\\Ekub.Application.csproj",
+  "projectFilePath": "C:\\Users\\user\\Desktop\\test\\Ekub-circle\\backend\\Ekub.Application\\Ekub.Application.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\user\\.nuget\\packages\\fluentvalidation\\12.1.1\\fluentvalidation.12.1.1.nupkg.sha512",
     "C:\\Users\\user\\.nuget\\packages\\fluentvalidation.dependencyinjectionextensions\\12.1.1\\fluentvalidation.dependencyinjectionextensions.12.1.1.nupkg.sha512",

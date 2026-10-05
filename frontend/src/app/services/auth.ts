@@ -1,21 +1,45 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { API_CONFIG } from '../config/api.config';
+
+export interface SignupPayload {
+  firstName: string;
+  middleName: string;
+  lastName: string;
+  phoneNumber: string;
+  username: string;
+  password: string;
+}
+
+export interface LoginResponse {
+  id: number;
+  username: string;
+  firstName: string;
+  middleName: string;
+  lastName: string;
+  phonenumber: string;
+  createdAt: string;
+}
 
 @Injectable({
   providedIn: 'root'
 })
 export class Auth {
 
-  private apiUrl = 'http://localhost:3000/api/auth';
+  private readonly apiUrl = `${API_CONFIG.baseUrl}/auth`;
 
   constructor(private http: HttpClient) {}
 
-  register(data: any): Observable<any> {
-    return this.http.post(`${this.apiUrl}/register`, data);
+  signup(data: SignupPayload): Observable<any> {
+    return this.http.post(`${this.apiUrl}/signup`, data);
   }
 
-  login(data: any): Observable<any> {
-    return this.http.post(`${this.apiUrl}/login`, data);
+  register(data: SignupPayload): Observable<any> {
+    return this.signup(data);
+  }
+
+  login(data: { phoneNumber: string; password: string }): Observable<LoginResponse> {
+    return this.http.post<LoginResponse>(`${this.apiUrl}/login`, data);
   }
 }
