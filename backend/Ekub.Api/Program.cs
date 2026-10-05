@@ -45,6 +45,7 @@ builder.Services.AddScoped<ICircleMemberStore, CircleMemberStore>();
 builder.Services.AddScoped<IPaymentStore, PaymentStore>();
 builder.Services.AddScoped<IPayoutStore, PayoutStore>();
 builder.Services.AddScoped<IRoundStore, RoundStore>();
+builder.Services.AddScoped<IRoundLifecycleStore, RoundLifecycleStore>();
 
 // MediatR
 builder.Services.AddMediatR(config =>
