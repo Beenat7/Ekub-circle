@@ -1,0 +1,68 @@
+<div class="payout-page">
+
+  <h1>Payouts</h1>
+
+  <p class="subtitle">
+    View member payouts and their payment status.
+  </p>
+
+  <div class="payout-table-container">
+
+    <table>
+
+      <thead>
+        <tr>
+          <th>Payout ID</th>
+          <th>Circle</th>
+          <th>Round</th>
+          <th>Member</th>
+          <th>Amount</th>
+          <th>Payout Date</th>
+          <th>Bank</th>
+          <th>Account Number</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+
+      <tbody>
+
+        @for (payout of payouts; track payout.id) {
+          <tr>
+
+            <td>{{ payout.id }}</td>
+
+            <td>{{ payout.circleId }}</td>
+
+            <td>{{ payout.roundId }}</td>
+
+            <td>{{ payout.memberId }}</td>
+
+            <td>{{ payout.amount }} ETB</td>
+
+            <td>{{ payout.payoutDate }}</td>
+
+            <td>{{ payout.bankName }}</td>
+
+            <td>{{ payout.accountNumber }}</td>
+
+            <td>
+              <span
+                class="status"
+                [class.pending]="payout.status === 'pending'"
+                [class.completed]="payout.status === 'completed'"
+                [class.failed]="payout.status === 'failed'"
+              >
+                {{ payout.status }}
+              </span>
+            </td>
+
+          </tr>
+        }
+
+      </tbody>
+
+    </table>
+
+  </div>
+
+</div>

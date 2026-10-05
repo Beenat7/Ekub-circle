@@ -1,0 +1,72 @@
+<div class="payment-page">
+
+  <h1>Payments</h1>
+
+  <p class="subtitle">
+    View member payment contributions and their verification status.
+  </p>
+
+  <div class="payment-table-container">
+
+    <table>
+
+      <thead>
+        <tr>
+          <th>Payment ID</th>
+          <th>Circle</th>
+          <th>Round</th>
+          <th>Member</th>
+          <th>Amount</th>
+          <th>Payment Date</th>
+          <th>Bank</th>
+          <th>Receipt</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+
+      <tbody>
+
+        @for (payment of payments; track payment.id) {
+          <tr>
+
+            <td>{{ payment.id }}</td>
+
+            <td>{{ payment.circleId }}</td>
+
+            <td>{{ payment.roundId }}</td>
+
+            <td>{{ payment.memberId }}</td>
+
+            <td>{{ payment.amount }} ETB</td>
+
+            <td>{{ payment.paymentDate }}</td>
+
+            <td>{{ payment.bankName }}</td>
+
+            <td>
+              <a [href]="payment.receiptUrl" target="_blank">
+                View Receipt
+              </a>
+            </td>
+
+            <td>
+              <span
+                class="status"
+                [class.pending]="payment.status === 'pending'"
+                [class.approved]="payment.status === 'approved'"
+                [class.rejected]="payment.status === 'rejected'"
+              >
+                {{ payment.status }}
+              </span>
+            </td>
+
+          </tr>
+        }
+
+      </tbody>
+
+    </table>
+
+  </div>
+
+</div>
