@@ -1,0 +1,207 @@
+<section class="circle-details-page">
+
+  @if (loading()) {
+
+    <div class="loading-container">
+      <mat-spinner diameter="40"></mat-spinner>
+      <p>Loading circle...</p>
+    </div>
+
+  } @else if (error()) {
+
+    <mat-card class="error-card">
+      <mat-card-content>
+        <mat-icon>error_outline</mat-icon>
+        <span>{{ error() }}</span>
+      </mat-card-content>
+    </mat-card>
+
+    <a
+      mat-button
+      routerLink="/circles">
+      <mat-icon>arrow_back</mat-icon>
+      Back to Circles
+    </a>
+
+  } @else if (circle()) {
+
+    <div class="page-header">
+
+      <div>
+        <h1>{{ circle()!.name }}</h1>
+        <p>View and manage this Ekub circle.</p>
+      </div>
+
+      <a
+        mat-button
+        routerLink="/circles">
+        <mat-icon>arrow_back</mat-icon>
+        Back to Circles
+      </a>
+
+    </div>
+
+    <div class="details-grid">
+
+      <!-- Circle Information -->
+
+      <mat-card class="details-card">
+
+        <mat-card-header>
+
+          <div mat-card-avatar class="circle-avatar">
+            <mat-icon>groups</mat-icon>
+          </div>
+
+          <mat-card-title>Circle Information</mat-card-title>
+
+          <mat-card-subtitle>
+            Basic information and contribution rules
+          </mat-card-subtitle>
+
+        </mat-card-header>
+
+        <mat-card-content>
+
+          <div class="status">
+            <mat-chip>
+              {{ circle()!.status }}
+            </mat-chip>
+          </div>
+
+          <div class="info-grid">
+
+            <div class="info-row">
+              <mat-icon>payments</mat-icon>
+              <div>
+                <span class="info-label">Contribution</span>
+                <strong>
+                  {{ circle()!.contributionAmount }} Birr
+                </strong>
+              </div>
+            </div>
+
+            <div class="info-row">
+              <mat-icon>groups</mat-icon>
+              <div>
+                <span class="info-label">Maximum Members</span>
+                <strong>
+                  {{ circle()!.maxMembers }}
+                </strong>
+              </div>
+            </div>
+
+            <div class="info-row">
+              <mat-icon>event_repeat</mat-icon>
+              <div>
+                <span class="info-label">Contribution Interval</span>
+                <strong>
+                  Every {{ circle()!.contributionIntervalDays }} days
+                </strong>
+              </div>
+            </div>
+
+            <div class="info-row">
+              <mat-icon>person</mat-icon>
+              <div>
+                <span class="info-label">Organizer</span>
+                <strong>
+                  {{ circle()!.organizerId }}
+                </strong>
+              </div>
+            </div>
+
+            <div class="info-row">
+              <mat-icon>calendar_today</mat-icon>
+              <div>
+                <span class="info-label">Created</span>
+                <strong>
+                  {{ circle()!.createdAt | date:'mediumDate' }}
+                </strong>
+              </div>
+            </div>
+
+            @if (circle()!.startedAt) {
+
+              <div class="info-row">
+                <mat-icon>play_circle</mat-icon>
+                <div>
+                  <span class="info-label">Started</span>
+                  <strong>
+                    {{ circle()!.startedAt | date:'mediumDate' }}
+                  </strong>
+                </div>
+              </div>
+
+            }
+
+            @if (circle()!.completedAt) {
+
+              <div class="info-row">
+                <mat-icon>check_circle</mat-icon>
+                <div>
+                  <span class="info-label">Completed</span>
+                  <strong>
+                    {{ circle()!.completedAt | date:'mediumDate' }}
+                  </strong>
+                </div>
+              </div>
+
+            }
+
+          </div>
+
+        </mat-card-content>
+
+      </mat-card>
+
+
+      <!-- Members -->
+
+      <mat-card class="members-card">
+
+        <mat-card-header>
+
+          <div mat-card-avatar class="circle-avatar">
+            <mat-icon>people</mat-icon>
+          </div>
+
+          <mat-card-title>Members</mat-card-title>
+
+          <mat-card-subtitle>
+            Manage the members of this circle
+          </mat-card-subtitle>
+
+        </mat-card-header>
+
+        <mat-card-content>
+
+          <div class="members-empty">
+
+            <mat-icon>group_add</mat-icon>
+
+            <h2>Manage Circle Members</h2>
+
+            <p>
+              Add and organize members before the circle starts.
+            </p>
+
+            <a
+              mat-flat-button
+              color="primary"
+              [routerLink]="['/circles', circle()!.id, 'members']">
+              <mat-icon>people</mat-icon>
+              Manage Members
+            </a>
+
+          </div>
+
+        </mat-card-content>
+
+      </mat-card>
+
+    </div>
+
+  }
+
+</section>
