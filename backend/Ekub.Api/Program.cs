@@ -29,6 +29,7 @@ builder.Services.AddDbContext<EkubDbContext>(options =>
     options.UseNpgsql(connectionString)
 );
 builder.Services.AddScoped<IMemberAuthStore, MemberAuthStore>();
+builder.Services.AddScoped<ICircleStore, CircleStore>();
 // --------------------------------------------------
 // MediatR
 // --------------------------------------------------
