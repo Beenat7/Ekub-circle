@@ -10,14 +10,29 @@ using Ekub.Application.Common.Persistence;
 using Ekub.Domain.Entities;
 using Ekub.Infrastructure.Persistence;
 
-
 var builder = WebApplication.CreateBuilder(args);
 
 // Controllers
 builder.Services.AddControllers();
 
-// EF Core
+// --------------------------------------------------
+// CORS Configuration
+// --------------------------------------------------
+const string AllowAngularDevOrigin = "_allowAngularDevOrigin";
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: AllowAngularDevOrigin,
+        policy =>
+        {
+            policy.WithOrigins("http://localhost:4200", "https://localhost:4200")
+                  .AllowAnyHeader()
+                  .AllowAnyMethod()
+                  .AllowCredentials();
+        });
+});
+
+// EF Core
 var connectionString = builder.Configuration.GetConnectionString("EkubDatabase");
 if (string.IsNullOrWhiteSpace(connectionString))
 {
@@ -30,6 +45,7 @@ builder.Services.AddDbContext<EkubDbContext>(options =>
 );
 builder.Services.AddScoped<IMemberAuthStore, MemberAuthStore>();
 builder.Services.AddScoped<ICircleStore, CircleStore>();
+
 // --------------------------------------------------
 // MediatR
 // --------------------------------------------------
@@ -60,6 +76,7 @@ builder.Services
         options.GroupNameFormat = "'v'VVV";
         options.SubstituteApiVersionInUrl = true;
     });
+
 // --------------------------------------------------
 // FluentValidation
 // --------------------------------------------------
@@ -80,6 +97,8 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 
 app.UseHttpsRedirection();
+
+app.UseCors(AllowAngularDevOrigin);
 
 app.UseAuthorization();
 
