@@ -18,10 +18,15 @@ builder.Services.AddControllers();
 
 // EF Core
 
+var connectionString = builder.Configuration.GetConnectionString("EkubDatabase");
+if (string.IsNullOrWhiteSpace(connectionString))
+{
+    throw new InvalidOperationException(
+        "Connection string 'EkubDatabase' was not found. Configure ConnectionStrings:EkubDatabase.");
+}
+
 builder.Services.AddDbContext<EkubDbContext>(options =>
-    options.UseNpgsql(
-        builder.Configuration.GetConnectionString("EkubDatabase")
-    )
+    options.UseNpgsql(connectionString)
 );
 builder.Services.AddScoped<IMemberAuthStore, MemberAuthStore>();
 // --------------------------------------------------
