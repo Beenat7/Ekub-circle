@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="Ekub.Api/Ekub.Api.csproj" />
+  <Project Path="Ekub.Application/Ekub.Application.csproj" />
+  <Project Path="Ekub.Domain/Ekub.Domain.csproj" />
+  <Project Path="Ekub.Infrastructure/Ekub.Infrastructure.csproj" />
+</Solution>
