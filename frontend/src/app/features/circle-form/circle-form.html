@@ -193,11 +193,10 @@
 
             @if (loading()) {
               <mat-spinner diameter="20"></mat-spinner>
-              Creating...
             } @else {
               <mat-icon>add</mat-icon>
-              Create Circle
             }
+            <span>{{ loading() ? 'Creating...' : 'Create Circle' }}</span>
 
           </button>
 

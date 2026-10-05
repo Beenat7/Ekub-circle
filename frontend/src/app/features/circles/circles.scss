@@ -24,8 +24,27 @@
   }
 }
 
+.header-actions {
+  display: flex;
+  gap: 12px;
+}
+
 .error-card {
   margin-bottom: 24px;
+  background-color: #fde8e8;
+  color: #9b1c1c;
+
+  mat-card-content {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+}
+
+.success-card {
+  margin-bottom: 24px;
+  background-color: #def7ec;
+  color: #03543f;
 
   mat-card-content {
     display: flex;
@@ -130,12 +149,58 @@
   margin-top: 20px;
 }
 
+.join-panel {
+  margin-top: 16px;
+  padding: 16px;
+  background: #f7f9f8;
+  border: 1px solid #d0e0d8;
+  border-radius: 12px;
+
+  h4 {
+    margin: 0 0 12px 0;
+    font-size: 15px;
+    color: #145c46;
+  }
+
+  p {
+    margin: 0;
+    color: #666;
+    font-size: 13px;
+  }
+
+  .order-select {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    color: #333;
+    font-size: 13.5px;
+    font-weight: 600;
+
+    select {
+      width: 100%;
+      padding: 9px 10px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      background: white;
+      font: inherit;
+    }
+  }
+
+  .join-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    margin-top: 12px;
+  }
+}
+
 mat-card-actions {
   margin-top: auto;
-  padding: 8px 16px 16px;
+  padding: 12px 16px;
   display: flex;
-  flex-wrap: wrap;
-  gap: 4px;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
 }
 
 @media (max-width: 600px) {
@@ -151,8 +216,13 @@ mat-card-actions {
       font-size: 28px;
     }
 
-    a {
+    .header-actions {
       width: 100%;
+      flex-direction: column;
+
+      a, button {
+        width: 100%;
+      }
     }
   }
 

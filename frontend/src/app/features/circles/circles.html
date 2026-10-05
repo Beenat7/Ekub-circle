@@ -4,17 +4,19 @@
   <div class="page-header">
 
     <div>
-      <h1>My Circles</h1>
-      <p>Circles you have joined.</p>
+      <h1>Ekub Circles</h1>
+      <p>Browse circles, view details, or join a circle.</p>
     </div>
 
-    <a
-      mat-flat-button
-      color="primary"
-      routerLink="/circles/new">
-      <mat-icon>add</mat-icon>
-      Create Circle
-    </a>
+    <div class="header-actions">
+      <a
+        mat-flat-button
+        color="primary"
+        routerLink="/circles/new">
+        <mat-icon>add</mat-icon>
+        Create Circle
+      </a>
+    </div>
 
   </div>
 
@@ -27,6 +29,33 @@
       <mat-card-content>
         <mat-icon>error_outline</mat-icon>
         <span>{{ error() }}</span>
+      </mat-card-content>
+
+    </mat-card>
+
+  }
+
+  <!-- Success Notification -->
+  @if (joinSuccessMsg()) {
+
+    <mat-card class="success-card">
+
+      <mat-card-content>
+        <mat-icon>check_circle_outline</mat-icon>
+        <span>{{ joinSuccessMsg() }}</span>
+      </mat-card-content>
+
+    </mat-card>
+
+  }
+
+  @if (joinError()) {
+
+    <mat-card class="error-card">
+
+      <mat-card-content>
+        <mat-icon>error_outline</mat-icon>
+        <span>{{ joinError() }}</span>
       </mat-card-content>
 
     </mat-card>
@@ -48,7 +77,7 @@
   }
 
 
-  <!-- Circles -->
+  <!-- Circles List -->
   @if (!loading() && !error()) {
 
     @if (circles().length === 0) {
@@ -62,7 +91,7 @@
           <h2>No circles found</h2>
 
           <p>
-            You have not joined any circles yet.
+            There are no active circles yet. Create one to get started!
           </p>
 
           <a
@@ -153,10 +182,47 @@
               <div class="status">
 
                 <mat-chip>
-                  {{ circle.status }}
+                  {{ circle.status || 'NotStarted' }}
                 </mat-chip>
 
               </div>
+
+              <!-- Join Circle Panel -->
+              @if (joiningCircleId() === circle.id) {
+
+                <div class="join-panel">
+                  <h4>Join {{ circle.name }}</h4>
+
+                  @if (loadingOrderNumbers()) {
+                    <p>Checking available positions...</p>
+                  } @else if (availableOrderNumbers().length > 0) {
+                    <label class="order-select">
+                      Select your payout position
+                      <select [(ngModel)]="selectedOrderNumber">
+                        @for (orderNumber of availableOrderNumbers(); track orderNumber) {
+                          <option [ngValue]="orderNumber">Position {{ orderNumber }}</option>
+                        }
+                      </select>
+                    </label>
+                  }
+
+                  <div class="join-actions">
+                    <button mat-button type="button" (click)="openJoinForm(circle)" [disabled]="submittingJoin()">
+                      Cancel
+                    </button>
+
+                    <button
+                      mat-flat-button
+                      color="primary"
+                      type="button"
+                      (click)="confirmJoin(circle.id)"
+                      [disabled]="loadingOrderNumbers() || submittingJoin() || availableOrderNumbers().length === 0">
+                      {{ submittingJoin() ? 'Joining...' : 'Confirm Join' }}
+                    </button>
+                  </div>
+                </div>
+
+              }
 
             </mat-card-content>
 
@@ -167,8 +233,18 @@
                 mat-button
                 [routerLink]="['/circles', circle.id]">
                 <mat-icon>visibility</mat-icon>
-                View Circle
+                View Details
               </a>
+
+              <button
+                mat-flat-button
+                color="accent"
+                type="button"
+                (click)="openJoinForm(circle)"
+                [disabled]="isJoined(circle.id)">
+                <mat-icon>{{ isJoined(circle.id) ? 'check_circle' : 'person_add' }}</mat-icon>
+                {{ isJoined(circle.id) ? 'Joined' : 'Join Circle' }}
+              </button>
 
             </mat-card-actions>
 

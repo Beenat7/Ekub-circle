@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Auth, SignupPayload } from '../../services/auth';
 
 @Component({
@@ -10,27 +10,24 @@ import { Auth, SignupPayload } from '../../services/auth';
   styleUrl: './register.scss'
 })
 export class Register {
-
-  registerForm: FormGroup;
+  private readonly fb = inject(FormBuilder);
+  readonly registerForm = this.fb.nonNullable.group({
+    firstName: ['', [Validators.required, Validators.minLength(2)]],
+    middleName: [''],
+    lastName: ['', [Validators.required, Validators.minLength(2)]],
+    username: ['', [Validators.required, Validators.minLength(3)]],
+    phoneNumber: ['', [Validators.required, Validators.pattern(/^[0-9]{10}$/)]],
+    password: ['', [Validators.required, Validators.minLength(8)]],
+    confirmPassword: ['', [Validators.required]]
+  });
   isLoading = false;
   errorMessage: string | null = null;
   successMessage: string | null = null;
 
   constructor(
-    private fb: FormBuilder,
     private auth: Auth,
     private router: Router
-  ) {
-    this.registerForm = this.fb.group({
-      firstName: ['', [Validators.required, Validators.minLength(2)]],
-      middleName: [''],
-      lastName: ['', [Validators.required, Validators.minLength(2)]],
-      username: ['', [Validators.required, Validators.minLength(3)]],
-      phoneNumber: ['', [Validators.required, Validators.pattern(/^[0-9]{10}$/)]],
-      password: ['', [Validators.required, Validators.minLength(8)]],
-      confirmPassword: ['', [Validators.required]]
-    });
-  }
+  ) {}
 
   register(): void {
     this.errorMessage = null;
@@ -41,7 +38,7 @@ export class Register {
       return;
     }
 
-    const formValues = this.registerForm.value;
+    const formValues = this.registerForm.getRawValue();
 
     if (formValues.password !== formValues.confirmPassword) {
       this.errorMessage = 'Passwords do not match.';
