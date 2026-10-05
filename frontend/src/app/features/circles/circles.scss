@@ -1,0 +1,162 @@
+.circles-page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 32px 24px;
+}
+
+.page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 32px;
+
+  h1 {
+    margin: 0;
+    font-size: 32px;
+    font-weight: 600;
+  }
+
+  p {
+    margin: 8px 0 0;
+    color: #666;
+    font-size: 15px;
+  }
+}
+
+.error-card {
+  margin-bottom: 24px;
+
+  mat-card-content {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+}
+
+.loading-container {
+  min-height: 300px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+
+  p {
+    margin: 0;
+    color: #666;
+  }
+}
+
+.empty-card {
+  text-align: center;
+
+  mat-card-content {
+    min-height: 300px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  mat-icon {
+    font-size: 48px;
+    width: 48px;
+    height: 48px;
+    margin-bottom: 16px;
+  }
+
+  h2 {
+    margin: 0 0 8px;
+  }
+
+  p {
+    margin: 0 0 24px;
+    color: #666;
+  }
+}
+
+.circles-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 20px;
+}
+
+.circle-card {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.circle-avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.circle-info {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.info-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+
+  mat-icon {
+    flex-shrink: 0;
+  }
+
+  div {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .info-label {
+    color: #666;
+    font-size: 13px;
+  }
+
+  strong {
+    font-size: 14px;
+  }
+}
+
+.status {
+  margin-top: 20px;
+}
+
+mat-card-actions {
+  margin-top: auto;
+  padding: 8px 16px 16px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+@media (max-width: 600px) {
+  .circles-page {
+    padding: 24px 16px;
+  }
+
+  .page-header {
+    align-items: flex-start;
+    flex-direction: column;
+
+    h1 {
+      font-size: 28px;
+    }
+
+    a {
+      width: 100%;
+    }
+  }
+
+  .circles-grid {
+    grid-template-columns: 1fr;
+  }
+}
