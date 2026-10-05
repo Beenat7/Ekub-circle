@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Ekub.Infrastructure")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+b23c93f6e52ffcb9af0b1eeacb2ce50dfc96db4a")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a1817cdea131ef752a10969a18e21d6f8b761efa")]
 [assembly: System.Reflection.AssemblyProductAttribute("Ekub.Infrastructure")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Ekub.Infrastructure")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
