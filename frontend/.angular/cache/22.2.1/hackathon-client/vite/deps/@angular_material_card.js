@@ -1,5 +1,5 @@
-import { Ca as ɵɵclassProp, Dr as ViewEncapsulation, In as Input, Wi as setClassMetadata, ao as ɵɵdefineNgModule, cn as Component, cs as ɵɵprojectionDef, dl as inject, io as ɵɵdefineDirective, jl as ɵɵdefineInjector, kc as InjectionToken, mo as ɵɵdomElementStart, po as ɵɵdomElementEnd, qn as NgModule, ro as ɵɵdefineComponent, ss as ɵɵprojection, wn as Directive } from "./core-RTmDtDNI.js";
-import { t as BidiModule } from "./bidi-P51S2C9Y.js";
+import { Ca as ɵɵclassProp, Dr as ViewEncapsulation, In as Input, Wi as setClassMetadata, ao as ɵɵdefineNgModule, cn as Component, cs as ɵɵprojectionDef, dl as inject, io as ɵɵdefineDirective, jl as ɵɵdefineInjector, kc as InjectionToken, mo as ɵɵdomElementStart, po as ɵɵdomElementEnd, qn as NgModule, ro as ɵɵdefineComponent, ss as ɵɵprojection, wn as Directive } from "./core-CABa1ZRZ.js";
+import { t as BidiModule } from "./bidi-COGFN9bY.js";
 //#region node_modules/@angular/material/fesm2022/card.mjs
 var MAT_CARD_CONFIG = new InjectionToken("MAT_CARD_CONFIG");
 var MatCard = class MatCard {

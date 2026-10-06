@@ -1,50 +1,26 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+
+import { API_CONFIG } from '../config/api.config';
 import { Round } from '../models/round.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class RoundService {
+  private readonly http = inject(HttpClient);
+  private readonly apiUrl = `${API_CONFIG.baseUrl}/rounds`;
 
-  private rounds: Round[] = [
-    {
-      id: 1,
-      circleId: 1,
-      roundNumber: 1,
-      startDate: '2026-10-01',
-      endDate: '2026-10-31',
-      recipientId: 101,
-      status: 'completed'
-    },
-    {
-      id: 2,
-      circleId: 1,
-      roundNumber: 2,
-      startDate: '2026-11-01',
-      endDate: '2026-11-30',
-      recipientId: 102,
-      status: 'active'
-    },
-    {
-      id: 3,
-      circleId: 1,
-      roundNumber: 3,
-      startDate: '2026-12-01',
-      endDate: '2026-12-31',
-      recipientId: 103,
-      status: 'upcoming'
-    }
-  ];
-
-  getRounds(): Round[] {
-    return this.rounds;
+  getRounds(): Observable<Round[]> {
+    return this.http.get<Round[]>(this.apiUrl);
   }
 
-  getRoundById(id: number): Round | undefined {
-    return this.rounds.find(round => round.id === id);
+  getRoundById(id: number): Observable<Round> {
+    return this.http.get<Round>(`${this.apiUrl}/${id}`);
   }
 
-  getRoundsByCircle(circleId: number): Round[] {
-    return this.rounds.filter(round => round.circleId === circleId);
+  getRoundsByCircle(circleId: number): Observable<Round[]> {
+    return this.http.get<Round[]>(`${this.apiUrl}/circle/${circleId}`);
   }
 }

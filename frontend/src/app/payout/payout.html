@@ -3,9 +3,41 @@
   <h1>Payouts</h1>
 
   <p class="subtitle">
-    View member payouts and their payment status.
+    Record the round payout after all circle members have contributed.
   </p>
 
+  @if (error) {
+    <p class="error-message">{{ error }}</p>
+  }
+  @if (success) {
+    <p class="success-message">{{ success }}</p>
+  }
+
+  <section class="payout-ready">
+    <h2>Ready for payout</h2>
+    @if (loading) {
+      <p>Loading rounds...</p>
+    } @else {
+      @for (round of eligibleRounds; track round.id) {
+        <div class="ready-round">
+          <div>
+            <strong>Circle #{{ round.circleId }} · Round {{ round.roundNumber }}</strong>
+            <p>Recipient: Member #{{ round.recipientId }} · Full pot: {{ round.expectedPayoutAmount }} ETB</p>
+          </div>
+          <button
+            type="button"
+            (click)="recordPayout(round)"
+            [disabled]="busyRoundId === round.id">
+            {{ busyRoundId === round.id ? 'Recording...' : 'Record payout' }}
+          </button>
+        </div>
+      } @empty {
+        <p>No rounds are ready for payout yet. Every member must contribute first.</p>
+      }
+    }
+  </section>
+
+  <h2>Payout history</h2>
   <div class="payout-table-container">
 
     <table>
@@ -18,8 +50,6 @@
           <th>Member</th>
           <th>Amount</th>
           <th>Payout Date</th>
-          <th>Bank</th>
-          <th>Account Number</th>
           <th>Status</th>
         </tr>
       </thead>
@@ -39,11 +69,7 @@
 
             <td>{{ payout.amount }} ETB</td>
 
-            <td>{{ payout.payoutDate }}</td>
-
-            <td>{{ payout.bankName }}</td>
-
-            <td>{{ payout.accountNumber }}</td>
+            <td>{{ payout.paidAt | date:'medium' }}</td>
 
             <td>
               <span

@@ -4,8 +4,14 @@ export interface Payout {
   roundId: number;
   memberId: number;
   amount: number;
-  payoutDate: string;
-  bankName: string;
-  accountNumber: string;
-  status: 'pending' | 'completed' | 'failed';
+  paidAt: string;
+  status: string;
+}
+
+export interface CreatePayoutRequest {
+  circleId: number;
+  roundId: number;
+  memberId: number;
+  amount: number;
+  recordedBy: number;
 }

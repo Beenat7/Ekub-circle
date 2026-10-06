@@ -6,6 +6,13 @@
     View the rounds of your Ekub circles and their current status.
   </p>
 
+  @if (loading) {
+    <p>Loading rounds...</p>
+  } @else if (error) {
+    <p class="error">{{ error }}</p>
+  } @else if (rounds.length === 0) {
+    <p>No rounds have started yet. A circle starts its first round when all member positions are filled.</p>
+  } @else {
   <div class="rounds-table-container">
 
     <table>
@@ -18,6 +25,8 @@
           <th>Start Date</th>
           <th>End Date</th>
           <th>Recipient</th>
+          <th>Contributions</th>
+          <th>Pot</th>
           <th>Status</th>
         </tr>
       </thead>
@@ -33,17 +42,19 @@
 
             <td>Round {{ round.roundNumber }}</td>
 
-            <td>{{ round.startDate }}</td>
+            <td>{{ round.startDate | date:'mediumDate' }}</td>
 
-            <td>{{ round.endDate }}</td>
+            <td>{{ round.endDate | date:'mediumDate' }}</td>
 
             <td>{{ round.recipientId }}</td>
+            <td>{{ round.paymentsReceived }} / {{ round.memberCount }} paid</td>
+            <td>{{ round.expectedPayoutAmount }} ETB</td>
 
             <td>
               <span
                 class="status"
-                [class.upcoming]="round.status === 'upcoming'"
-                [class.active]="round.status === 'active'"
+                [class.upcoming]="round.status === 'pending'"
+                [class.active]="round.status === 'open'"
                 [class.completed]="round.status === 'completed'"
               >
                 {{ round.status }}
@@ -58,5 +69,6 @@
     </table>
 
   </div>
+  }
 
 </div>

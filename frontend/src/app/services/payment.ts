@@ -1,60 +1,26 @@
-import { Injectable } from '@angular/core';
-import { Payment } from '../models/payment.model';
+import { Injectable, inject } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+
+import { API_CONFIG } from '../config/api.config';
+import { CreatePaymentRequest, Payment } from '../models/payment.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PaymentService {
+  private readonly http = inject(HttpClient);
+  private readonly apiUrl = `${API_CONFIG.baseUrl}/payments`;
 
-  private payments: Payment[] = [
-    {
-      id: 1,
-      circleId: 1,
-      roundId: 1,
-      memberId: 101,
-      amount: 5000,
-      paymentDate: '2026-10-05',
-      bankName: 'Commercial Bank of Ethiopia',
-      receiptUrl: 'receipts/payment-1.jpg',
-      status: 'approved'
-    },
-    {
-      id: 2,
-      circleId: 1,
-      roundId: 1,
-      memberId: 102,
-      amount: 5000,
-      paymentDate: '2026-10-06',
-      bankName: 'Awash Bank',
-      receiptUrl: 'receipts/payment-2.jpg',
-      status: 'approved'
-    },
-    {
-      id: 3,
-      circleId: 1,
-      roundId: 2,
-      memberId: 101,
-      amount: 5000,
-      paymentDate: '2026-11-05',
-      bankName: 'Commercial Bank of Ethiopia',
-      receiptUrl: 'receipts/payment-3.jpg',
-      status: 'pending'
-    }
-  ];
-
-  getPayments(): Payment[] {
-    return this.payments;
+  getPayments(): Observable<Payment[]> {
+    return this.http.get<Payment[]>(this.apiUrl);
   }
 
-  getPaymentById(id: number): Payment | undefined {
-    return this.payments.find(payment => payment.id === id);
+  getPaymentsByMember(memberId: number): Observable<Payment[]> {
+    return this.http.get<Payment[]>(`${this.apiUrl}/member/${memberId}`);
   }
 
-  getPaymentsByRound(roundId: number): Payment[] {
-    return this.payments.filter(payment => payment.roundId === roundId);
-  }
-
-  getPaymentsByMember(memberId: number): Payment[] {
-    return this.payments.filter(payment => payment.memberId === memberId);
+  create(request: CreatePaymentRequest): Observable<Payment> {
+    return this.http.post<Payment>(this.apiUrl, request);
   }
 }

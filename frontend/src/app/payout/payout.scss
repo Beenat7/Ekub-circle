@@ -15,6 +15,54 @@
   color: #64748b;
 }
 
+.payout-ready {
+  margin-bottom: 28px;
+  padding: 20px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+
+  h2 {
+    margin-top: 0;
+  }
+}
+
+.ready-round {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 14px 0;
+  border-top: 1px solid #e2e8f0;
+
+  p {
+    margin: 6px 0 0;
+    color: #64748b;
+  }
+
+  button {
+    padding: 9px 14px;
+    color: white;
+    background: #145c46;
+    border: 0;
+    border-radius: 6px;
+    cursor: pointer;
+
+    &:disabled {
+      opacity: 0.6;
+      cursor: wait;
+    }
+  }
+}
+
+.error-message {
+  color: #991b1b;
+}
+
+.success-message {
+  color: #166534;
+}
+
 .payout-table-container {
   background: white;
   border-radius: 12px;

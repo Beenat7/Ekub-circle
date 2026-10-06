@@ -3,9 +3,51 @@
   <h1>Payments</h1>
 
   <p class="subtitle">
-    View member payment contributions and their verification status.
+    Record your contribution for an open round and review your payment history.
   </p>
 
+  @if (error) {
+    <p class="error-message">{{ error }}</p>
+  }
+  @if (success) {
+    <p class="success-message">{{ success }}</p>
+  }
+
+  <section class="round-contributions">
+    <h2>Open rounds</h2>
+    <label>
+      Payment method
+      <select [(ngModel)]="paymentMethod">
+        <option value="Cash">Cash</option>
+        <option value="BankTransfer">Bank transfer</option>
+        <option value="MobileMoney">Mobile money</option>
+        <option value="Other">Other</option>
+      </select>
+    </label>
+
+    @if (loading) {
+      <p>Loading open rounds...</p>
+    } @else {
+      @for (round of openRounds; track round.id) {
+        <div class="round-contribution">
+          <div>
+            <strong>Circle #{{ round.circleId }} · Round {{ round.roundNumber }}</strong>
+            <p>Contribution: {{ round.contributionAmount }} ETB · Due {{ round.endDate | date:'mediumDate' }}</p>
+          </div>
+          <button
+            type="button"
+            (click)="recordPayment(round)"
+            [disabled]="busyRoundId === round.id">
+            {{ busyRoundId === round.id ? 'Recording...' : 'Record payment' }}
+          </button>
+        </div>
+      } @empty {
+        <p>No unpaid open rounds are available.</p>
+      }
+    }
+  </section>
+
+  <h2>Your contribution history</h2>
   <div class="payment-table-container">
 
     <table>
@@ -18,8 +60,8 @@
           <th>Member</th>
           <th>Amount</th>
           <th>Payment Date</th>
-          <th>Bank</th>
-          <th>Receipt</th>
+          <th>Method</th>
+          <th>Transaction</th>
           <th>Status</th>
         </tr>
       </thead>
@@ -39,14 +81,12 @@
 
             <td>{{ payment.amount }} ETB</td>
 
-            <td>{{ payment.paymentDate }}</td>
+            <td>{{ payment.paidAt | date:'medium' }}</td>
 
-            <td>{{ payment.bankName }}</td>
+            <td>{{ payment.paymentMethod }}</td>
 
             <td>
-              <a [href]="payment.receiptUrl" target="_blank">
-                View Receipt
-              </a>
+              {{ payment.transactionId || '—' }}
             </td>
 
             <td>

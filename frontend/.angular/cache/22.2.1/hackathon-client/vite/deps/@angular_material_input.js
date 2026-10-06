@@ -1,12 +1,13 @@
-import { Ca as ɵɵclassProp, En as ElementRef, In as Input, O as booleanAttribute, Qo as ɵɵlistener, Rc as NgZone, Ul as Subject, Wi as setClassMetadata, ao as ɵɵdefineNgModule, dl as inject, go as ɵɵdomProperty, il as effect, io as ɵɵdefineDirective, ir as Renderer2, jl as ɵɵdefineInjector, kc as InjectionToken, la as ɵɵNgOnChangesFeature, ml as isSignal, qn as NgModule, ua as ɵɵProvidersFeature, wn as Directive, ya as ɵɵattribute } from "./core-RTmDtDNI.js";
-import { t as Platform } from "./_platform-chunk-1eIlHCHA.js";
-import { _ as coerceBooleanProperty, c as MatFormFieldControl, d as MatPrefix, f as MatSuffix, g as FORM_FIELD, l as MatHint, n as MAT_FORM_FIELD, o as MatError, s as MatFormField, u as MatLabel, v as _IdGenerator } from "./_form-field-chunk-CynCViOL.js";
-import { i as TextFieldModule, t as AutofillMonitor } from "./text-field-CvN0hqzo.js";
-import "./_animation-chunk-CbHsLk3G.js";
-import { t as getSupportedInputTypes } from "./platform-DNO6iHl2.js";
-import { t as BidiModule } from "./bidi-P51S2C9Y.js";
+import { Qn as Subject } from "./esm5-DYNb5pjm.js";
+import { Ca as ɵɵclassProp, En as ElementRef, In as Input, O as booleanAttribute, Qo as ɵɵlistener, Rc as NgZone, Wi as setClassMetadata, ao as ɵɵdefineNgModule, dl as inject, go as ɵɵdomProperty, il as effect, io as ɵɵdefineDirective, ir as Renderer2, jl as ɵɵdefineInjector, kc as InjectionToken, la as ɵɵNgOnChangesFeature, ml as isSignal, qn as NgModule, ua as ɵɵProvidersFeature, wn as Directive, ya as ɵɵattribute } from "./core-CABa1ZRZ.js";
+import { t as BidiModule } from "./bidi-COGFN9bY.js";
+import { t as Platform } from "./_platform-chunk-AvnCVSUc.js";
+import { AutofillMonitor, TextFieldModule } from "./@angular_cdk_text-field.js";
 import { FormGroupDirective, NgControl, NgForm, Validators } from "./@angular_forms.js";
-import { n as ErrorStateMatcher, t as _ErrorStateTracker } from "./_error-state-chunk-BDniy9gU.js";
+import { t as getSupportedInputTypes } from "./platform-CM4ke-gT.js";
+import "./_animation-chunk-B5JhznPg.js";
+import { _ as coerceBooleanProperty, c as MatFormFieldControl, d as MatPrefix, f as MatSuffix, g as FORM_FIELD, l as MatHint, n as MAT_FORM_FIELD, o as MatError, s as MatFormField, u as MatLabel, v as _IdGenerator } from "./_form-field-chunk-aHWvZr9A.js";
+import { n as ErrorStateMatcher, t as _ErrorStateTracker } from "./_error-state-chunk-NAWdSKuI.js";
 import { MatFormFieldModule } from "./@angular_material_form-field.js";
 //#region node_modules/@angular/material/fesm2022/_input-value-accessor-chunk.mjs
 var MAT_INPUT_VALUE_ACCESSOR = new InjectionToken("MAT_INPUT_VALUE_ACCESSOR");
