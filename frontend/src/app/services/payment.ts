@@ -20,7 +20,18 @@ export class PaymentService {
     return this.http.get<Payment[]>(`${this.apiUrl}/member/${memberId}`);
   }
 
+  getPendingByOrganizer(organizerId: number): Observable<Payment[]> {
+    return this.http.get<Payment[]>(`${this.apiUrl}/pending/organizer/${organizerId}`);
+  }
+
   create(request: CreatePaymentRequest): Observable<Payment> {
     return this.http.post<Payment>(this.apiUrl, request);
+  }
+
+  review(paymentId: number, reviewerId: number, approve: boolean): Observable<Payment> {
+    return this.http.patch<Payment>(`${this.apiUrl}/${paymentId}/review`, {
+      reviewerId,
+      approve
+    });
   }
 }

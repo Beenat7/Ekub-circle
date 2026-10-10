@@ -16,7 +16,29 @@
     </header>
 
 
-    <!-- Summary cards -->
+    @if (error) {
+      <p class="error-message">{{ error }}</p>
+      @if (loginRequired) {
+        <a routerLink="/login">Go to login</a>
+      }
+    }
+
+    @if (success) {
+      <p class="success-message">{{ success }}</p>
+    }
+
+    @if (roundsError) {
+      <p class="error-message">{{ roundsError }}</p>
+    }
+
+    @if (paymentsError) {
+      <p class="error-message">{{ paymentsError }}</p>
+    }
+
+    @if (loading) {
+      <p>Loading your dashboard...</p>
+    }
+
     <section class="summary-grid">
 
       <div class="summary-card">
@@ -25,7 +47,7 @@
 
         <div>
           <p>My Circles</p>
-          <h2>{{ totalCircles }}</h2>
+          <h2>{{ loading ? '—' : totalCircles }}</h2>
         </div>
 
       </div>
@@ -37,7 +59,7 @@
 
         <div>
           <p>Active Rounds</p>
-          <h2>{{ activeRounds }}</h2>
+          <h2>{{ loadingRounds ? '—' : activeRounds }}</h2>
         </div>
 
       </div>
@@ -49,7 +71,7 @@
 
         <div>
           <p>Total Contributed</p>
-          <h2>{{ totalContributed | number }}</h2>
+          <h2>{{ loadingPayments ? '—' : (totalContributed | number) }}</h2>
           <small>ETB</small>
         </div>
 
@@ -62,7 +84,7 @@
 
         <div>
           <p>Next Payment</p>
-          <h2>{{ nextPayment | number }}</h2>
+          <h2>{{ loadingRounds || loadingPayments ? '—' : (nextPayment | number) }}</h2>
           <small>ETB</small>
         </div>
 
@@ -81,7 +103,7 @@
 
           <div>
             <h2>My Circles</h2>
-            <p>Your active Ekub circles</p>
+            <p>Your circles loaded from your account</p>
           </div>
 
           <a routerLink="/circles">
@@ -91,50 +113,32 @@
         </div>
 
 
-        <div class="circle-item">
-
-          <div class="circle-icon">
-            E
-          </div>
-
-          <div class="circle-info">
-
-            <h3>Family Ekub</h3>
-
-            <p>
-              Contribution: 2,500 ETB
-            </p>
-
-          </div>
-
-          <span class="status">
-            Active
-          </span>
-
-        </div>
-
-
-        <div class="circle-item">
-
-          <div class="circle-icon">
-            C
-          </div>
-
-          <div class="circle-info">
-
-            <h3>Community Circle</h3>
-
-            <p>
-              Contribution: 5,000 ETB
-            </p>
-
-          </div>
-
-          <span class="status">
-            Active
-          </span>
-
-        </div>
+        @if (!loading) {
+          @for (circle of circles; track circle.id) {
+            <div class="circle-item">
+              <div class="circle-icon">{{ circle.name.charAt(0) }}</div>
+              <div class="circle-info">
+                <h3>{{ circle.name }}</h3>
+                <p>Contribution: {{ circle.contributionAmount | number }} ETB</p>
+              </div>
+              <span class="status">{{ circle.status }}</span>
+              @if (isCircleCreator(circle) && circle.status === 'NotStarted') {
+                <span class="round-hint">Lock this circle before starting its first round.</span>
+              }
+              @if (canStartRound(circle)) {
+                <button
+                  class="start-round-button"
+                  type="button"
+                  (click)="startRound(circle)"
+                  [disabled]="startingCircleId === circle.id">
+                  {{ startingCircleId === circle.id ? 'Starting...' : latestRound(circle.id) ? 'Open next round' : 'Start first round' }}
+                </button>
+              }
+            </div>
+          } @empty {
+            <p>You have not joined any circles yet.</p>
+          }
+        }
 
       </div>
 
@@ -152,16 +156,16 @@
         </div>
 
         <div class="payment-amount">
-          {{ nextPayment | number }}
+          {{ loadingRounds || loadingPayments ? '—' : (nextPayment | number) }}
           <span>ETB</span>
         </div>
 
         <p class="payment-date">
-          Due soon
+          {{ loadingRounds || loadingPayments ? 'Checking your open rounds...' : nextPayment > 0 ? 'For your next open round' : 'No payment currently due' }}
         </p>
-<button class="pay-button" routerLink="/payment">
-  Make Payment
-</button>
+        @if (nextPayment > 0) {
+          <button class="pay-button" routerLink="/payment">Make Payment</button>
+        }
 
       </div>
 

@@ -15,6 +15,17 @@ public sealed class CircleStore(EkubDbContext dbContext) : ICircleStore
             .ToListAsync(cancellationToken);
     }
 
+    public Task<List<Circle>> GetByMemberIdAsync(
+        int memberId,
+        CancellationToken cancellationToken)
+    {
+        return dbContext.Circles
+            .AsNoTracking()
+            .Include(c => c.Organizer)
+            .Where(c => c.CircleMembers.Any(cm => cm.MemberId == memberId))
+            .ToListAsync(cancellationToken);
+    }
+
     public Task<Circle?> GetByIdAsync(int id, CancellationToken cancellationToken)
     {
         return dbContext.Circles

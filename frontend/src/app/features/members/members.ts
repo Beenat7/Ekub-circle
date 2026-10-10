@@ -40,9 +40,9 @@ export class Members implements OnInit {
   readonly successMsg = signal<string | null>(null);
 
   readonly memberForm = this.fb.nonNullable.group({
-    circleId: [1, [Validators.required, Validators.min(1)]],
-    memberId: [5, [Validators.required, Validators.min(1)]],
-    orderNumber: [1, [Validators.required, Validators.min(1)]]
+    circleId: [0, [Validators.required, Validators.min(1)]],
+    memberId: [0, [Validators.required, Validators.min(1)]],
+    orderNumber: [0, [Validators.required, Validators.min(1)]]
   });
 
   displayedColumns: string[] = ['id', 'circleId', 'memberId', 'memberName', 'orderNumber', 'joinedAt'];
@@ -53,16 +53,23 @@ export class Members implements OnInit {
 
   loadMembers(): void {
     const circleId = this.memberForm.controls.circleId.value;
-    if (!circleId) return;
+    if (!circleId || circleId < 1) {
+      this.members.set([]);
+      this.loading.set(false);
+      return;
+    }
 
     this.loading.set(true);
+    this.error.set(null);
     this.memberService.getByCircleId(circleId).subscribe({
       next: (list) => {
         this.members.set(list || []);
         this.loading.set(false);
       },
-      error: () => {
+      error: (err) => {
+        console.error('Failed to load circle members:', err);
         this.members.set([]);
+        this.error.set(err?.error?.message ?? 'Could not load members for this circle.');
         this.loading.set(false);
       }
     });

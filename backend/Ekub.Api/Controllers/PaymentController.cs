@@ -36,6 +36,18 @@ public sealed class PaymentController(IMediator mediator) : ControllerBase
         return StatusCode(result.StatusCode, result.Value);
     }
 
+    [HttpGet("pending/organizer/{organizerId:int}")]
+    [ProducesResponseType(typeof(List<PaymentResponse>), StatusCodes.Status200OK)]
+    public async Task<IActionResult> GetPendingForOrganizer(
+        int organizerId,
+        CancellationToken cancellationToken)
+    {
+        var result = await mediator.Send(
+            new GetPendingPaymentsByOrganizerQuery(organizerId),
+            cancellationToken);
+        return StatusCode(result.StatusCode, result.Value);
+    }
+
     [HttpPost]
     [ProducesResponseType(typeof(PaymentResponse), StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -52,5 +64,26 @@ public sealed class PaymentController(IMediator mediator) : ControllerBase
         }
 
         return StatusCode(result.StatusCode, result.Value);
+    }
+
+    [HttpPatch("{id:int}/review")]
+    [ProducesResponseType(typeof(PaymentResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status403Forbidden)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status409Conflict)]
+    public async Task<IActionResult> Review(
+        int id,
+        [FromBody] ReviewPaymentRequest request,
+        CancellationToken cancellationToken)
+    {
+        var result = await mediator.Send(
+            new ReviewPaymentCommand(id, request),
+            cancellationToken);
+        if (!result.IsSuccess)
+        {
+            return StatusCode(result.StatusCode, new { message = result.Error });
+        }
+
+        return Ok(result.Value);
     }
 }

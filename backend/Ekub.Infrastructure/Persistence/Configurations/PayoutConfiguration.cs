@@ -15,5 +15,11 @@ public class PayoutConfiguration : IEntityTypeConfiguration<Payout>
         builder.HasOne(payout => payout.RecordedByMember)
             .WithMany()
             .HasForeignKey(payout => payout.RecordedBy);
+
+        builder.HasIndex(payout => payout.RoundId)
+            .IsUnique();
+
+        builder.HasIndex(payout => new { payout.CircleId, payout.MemberId })
+            .IsUnique();
     }
 }

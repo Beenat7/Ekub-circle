@@ -22,3 +22,12 @@ C:\Users\user\Desktop\test\Ekub-circle\backend\Ekub.Domain\obj\Debug\net10.0\Eku
 C:\Users\user\Desktop\test\Ekub-circle\backend\Ekub.Domain\obj\Debug\net10.0\refint\Ekub.Domain.dll
 C:\Users\user\Desktop\test\Ekub-circle\backend\Ekub.Domain\obj\Debug\net10.0\Ekub.Domain.pdb
 C:\Users\user\Desktop\test\Ekub-circle\backend\Ekub.Domain\obj\Debug\net10.0\ref\Ekub.Domain.dll
+C:\Users\user\AppData\Local\Temp\EkubRoundBuild\Ekub.Domain.deps.json
+C:\Users\user\AppData\Local\Temp\EkubRoundBuild\Ekub.Domain.dll
+C:\Users\user\AppData\Local\Temp\EkubRoundBuild\Ekub.Domain.pdb
+C:\Users\user\AppData\Local\Temp\EkubBuild\Debug\net10.0\Ekub.Domain.deps.json
+C:\Users\user\AppData\Local\Temp\EkubBuild\Debug\net10.0\Ekub.Domain.dll
+C:\Users\user\AppData\Local\Temp\EkubBuild\Debug\net10.0\Ekub.Domain.pdb
+C:\Users\user\AppData\Local\Temp\EkubEfBuild\Debug\net10.0\Ekub.Domain.deps.json
+C:\Users\user\AppData\Local\Temp\EkubEfBuild\Debug\net10.0\Ekub.Domain.dll
+C:\Users\user\AppData\Local\Temp\EkubEfBuild\Debug\net10.0\Ekub.Domain.pdb

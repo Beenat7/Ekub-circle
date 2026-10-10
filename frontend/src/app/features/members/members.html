@@ -48,7 +48,7 @@
               matInput
               type="number"
               formControlName="circleId"
-              placeholder="1"
+              placeholder="Enter circle ID"
               min="1"
               (change)="loadMembers()">
             @if (memberForm.controls.circleId.invalid && memberForm.controls.circleId.touched) {
@@ -64,7 +64,7 @@
               matInput
               type="number"
               formControlName="memberId"
-              placeholder="5"
+              placeholder="Enter member ID"
               min="1">
             @if (memberForm.controls.memberId.invalid && memberForm.controls.memberId.touched) {
               <mat-error>Valid Member ID is required.</mat-error>
@@ -79,7 +79,7 @@
               matInput
               type="number"
               formControlName="orderNumber"
-              placeholder="1"
+              placeholder="Enter payout order"
               min="1">
             @if (memberForm.controls.orderNumber.invalid && memberForm.controls.orderNumber.touched) {
               <mat-error>Valid Order Number is required.</mat-error>

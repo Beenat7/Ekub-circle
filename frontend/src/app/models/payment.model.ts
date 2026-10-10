@@ -7,7 +7,12 @@ export interface Payment {
   paymentMethod: string;
   transactionId: string | null;
   paidAt: string;
-  status: string;
+  status: 'pending' | 'approved' | 'rejected';
+  bankName: string;
+  circleName: string | null;
+  memberName: string | null;
+  reviewedByMemberId: number | null;
+  reviewedAt: string | null;
 }
 
 export interface CreatePaymentRequest {
@@ -16,6 +21,7 @@ export interface CreatePaymentRequest {
   memberId: number;
   amount: number;
   paymentMethod: 'Cash' | 'BankTransfer' | 'MobileMoney' | 'Other';
-  transactionId: string | null;
+  transactionId: string;
+  bankName: string;
   recordedBy: number;
 }

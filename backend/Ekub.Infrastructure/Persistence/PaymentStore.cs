@@ -22,6 +22,7 @@ public sealed class PaymentStore(EkubDbContext dbContext) : IPaymentStore
         return dbContext.Payments
             .AsNoTracking()
             .Include(p => p.Member)
+            .Include(p => p.Circle)
             .Where(p => p.RoundId == roundId)
             .ToListAsync(cancellationToken);
     }
@@ -30,7 +31,22 @@ public sealed class PaymentStore(EkubDbContext dbContext) : IPaymentStore
     {
         return dbContext.Payments
             .AsNoTracking()
+            .Include(p => p.Member)
+            .Include(p => p.Circle)
             .Where(p => p.MemberId == memberId)
+            .ToListAsync(cancellationToken);
+    }
+
+    public Task<List<Payment>> GetPendingByOrganizerIdAsync(
+        int organizerId,
+        CancellationToken cancellationToken)
+    {
+        return dbContext.Payments
+            .AsNoTracking()
+            .Include(p => p.Member)
+            .Include(p => p.Circle)
+            .Where(p => p.Status == PaymentStatus.Pending && p.Circle.OrganizerId == organizerId)
+            .OrderBy(p => p.PaidAt)
             .ToListAsync(cancellationToken);
     }
 

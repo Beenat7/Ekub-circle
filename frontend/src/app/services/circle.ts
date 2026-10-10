@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 
 import { API_CONFIG } from '../config/api.config';
 import { Circle, CreateCircleRequest } from '../models/circle';
+import { Round } from '../models/round.model';
 
 @Injectable({
   providedIn: 'root'
@@ -17,9 +18,7 @@ export class CircleService {
   }
 
   getByMemberId(memberId: string | number): Observable<Circle[]> {
-    return this.http.get<Circle[]>(
-      `${API_CONFIG.baseUrl}/members/${memberId}/circles`
-    );
+    return this.http.get<Circle[]>(`${this.apiUrl}/member/${memberId}`);
   }
 
   getById(id: string | number): Observable<Circle> {
@@ -28,5 +27,13 @@ export class CircleService {
 
   create(request: CreateCircleRequest): Observable<Circle> {
     return this.http.post<Circle>(this.apiUrl, request);
+  }
+
+  lock(id: string | number, memberId: number): Observable<Circle> {
+    return this.http.patch<Circle>(`${this.apiUrl}/${id}/lock`, { memberId });
+  }
+
+  openNextRound(id: string | number, memberId: number): Observable<Round> {
+    return this.http.post<Round>(`${this.apiUrl}/${id}/rounds/open`, { memberId });
   }
 }

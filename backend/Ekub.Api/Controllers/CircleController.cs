@@ -1,6 +1,8 @@
 using Asp.Versioning;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Ekub.Application.Circles.Commands.LockCircle;
+using Ekub.Application.Circles.Commands.OpenNextRound;
 using Ekub.Application.Circles.Commands.CreateCircle;
 using Ekub.Application.Circles.DTOs;
 using Ekub.Application.Circles.Queries.GetCircles;
@@ -26,6 +28,18 @@ public class CircleController : ControllerBase
         var query = new GetCirclesQuery();
         var result = await _mediator.Send(query, cancellationToken);
 
+        return StatusCode(result.StatusCode, result.Value);
+    }
+
+    [HttpGet("member/{memberId:int}")]
+    [ProducesResponseType(typeof(List<CircleResponse>), StatusCodes.Status200OK)]
+    public async Task<IActionResult> GetByMemberId(
+        int memberId,
+        CancellationToken cancellationToken)
+    {
+        var result = await _mediator.Send(
+            new GetCirclesByMemberQuery(memberId),
+            cancellationToken);
         return StatusCode(result.StatusCode, result.Value);
     }
 
@@ -63,5 +77,51 @@ public class CircleController : ControllerBase
         }
 
         return StatusCode(result.StatusCode, result.Value);
+    }
+
+    [HttpPatch("{id:int}/lock")]
+    [ProducesResponseType(typeof(CircleResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status403Forbidden)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status409Conflict)]
+    public async Task<IActionResult> Lock(
+        int id,
+        [FromBody] LockCircleRequest request,
+        CancellationToken cancellationToken)
+    {
+        var result = await _mediator.Send(
+            new LockCircleCommand(id, request),
+            cancellationToken);
+
+        if (!result.IsSuccess)
+        {
+            return StatusCode(result.StatusCode, new { message = result.Error });
+        }
+
+        return Ok(result.Value);
+    }
+
+    [HttpPost("{id:int}/rounds/open")]
+    [ProducesResponseType(typeof(Ekub.Application.Rounds.DTOs.RoundResponse), StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status403Forbidden)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status409Conflict)]
+    public async Task<IActionResult> OpenNextRound(
+        int id,
+        [FromBody] OpenNextRoundRequest request,
+        CancellationToken cancellationToken)
+    {
+        var result = await _mediator.Send(
+            new OpenNextRoundCommand(id, request),
+            cancellationToken);
+        if (!result.IsSuccess)
+        {
+            return StatusCode(result.StatusCode, new { message = result.Error });
+        }
+
+        return CreatedAtRoute(
+            "GetRoundById",
+            new { version = "1.0", id = result.Value!.Id },
+            result.Value);
     }
 }

@@ -85,7 +85,7 @@
             matInput
             type="number"
             formControlName="contributionAmount"
-            placeholder="444"
+            placeholder="Enter amount"
             min="1">
 
           <span matTextSuffix>Birr</span>
@@ -111,7 +111,7 @@
             matInput
             type="number"
             formControlName="maxMembers"
-            placeholder="222"
+            placeholder="Enter member limit"
             min="2">
 
           @if (
@@ -135,7 +135,7 @@
             matInput
             type="number"
             formControlName="contributionIntervalDays"
-            placeholder="3"
+            placeholder="Enter days"
             min="1">
 
           <span matTextSuffix>days</span>
@@ -146,30 +146,6 @@
           ) {
             <mat-error>
               Interval must be at least 1 day.
-            </mat-error>
-          }
-
-        </mat-form-field>
-
-        <!-- Organizer ID -->
-        <mat-form-field appearance="outline">
-          <mat-label>Organizer ID</mat-label>
-
-          <mat-icon matPrefix>person</mat-icon>
-
-          <input
-            matInput
-            type="number"
-            formControlName="organizerId"
-            placeholder="1"
-            min="1">
-
-          @if (
-            circleForm.controls.organizerId.invalid &&
-            circleForm.controls.organizerId.touched
-          ) {
-            <mat-error>
-              Valid Organizer ID is required.
             </mat-error>
           }
 

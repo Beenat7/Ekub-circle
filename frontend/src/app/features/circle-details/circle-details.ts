@@ -31,7 +31,11 @@ export class CircleDetails {
 
   readonly circle = signal<Circle | null>(null);
   readonly loading = signal(true);
+  readonly starting = signal(false);
   readonly error = signal<string | null>(null);
+  readonly successMsg = signal<string | null>(null);
+
+  readonly memberId = Number(localStorage.getItem('memberId'));
 
   constructor() {
     const circleId = this.route.snapshot.paramMap.get('id');
@@ -43,6 +47,43 @@ export class CircleDetails {
     }
 
     this.loadCircle(circleId);
+  }
+
+  get isOrganizer(): boolean {
+    const c = this.circle();
+    return !!c && Number(c.organizerId) === this.memberId;
+  }
+
+  get isForming(): boolean {
+    const c = this.circle();
+    return !!c && (c.status === 'Forming' || c.status === 'NotStarted');
+  }
+
+  startCircle(): void {
+    const c = this.circle();
+    if (!c) return;
+
+    if (!confirm(`Are you sure you want to start circle "${c.name}"? This will lock membership and generate all rotation rounds.`)) {
+      return;
+    }
+
+    this.starting.set(true);
+    this.error.set(null);
+    this.successMsg.set(null);
+
+    this.circleService.lock(c.id, this.memberId).subscribe({
+      next: (updatedCircle) => {
+        this.circle.set(updatedCircle);
+        this.starting.set(false);
+        this.successMsg.set('Circle started successfully! Rounds and recipient rotation sequence have been generated.');
+      },
+      error: (err) => {
+        console.error('Failed to start circle:', err);
+        this.starting.set(false);
+        const msg = err?.error?.message || 'Could not start circle. Ensure at least two members have joined and you are the organizer.';
+        this.error.set(msg);
+      }
+    });
   }
 
   private loadCircle(id: string): void {

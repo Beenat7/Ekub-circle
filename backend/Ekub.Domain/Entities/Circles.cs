@@ -14,7 +14,7 @@ public class Circle
 
     public int ContributionIntervalDays { get; set; }
 
-    public CircleStatus Status { get; set; } = CircleStatus.NotStarted;
+    public CircleStatus Status { get; set; } = CircleStatus.Forming;
 
     // The organizer is also a member of the circle
     public int OrganizerId { get; set; }

@@ -178,6 +178,11 @@ namespace Ekub.Infrastructure.Migrations
                     b.Property<decimal>("Amount")
                         .HasColumnType("numeric");
 
+                    b.Property<string>("BankName")
+                        .IsRequired()
+                        .HasMaxLength(160)
+                        .HasColumnType("character varying(160)");
+
                     b.Property<int>("CircleId")
                         .HasColumnType("integer");
 
@@ -196,11 +201,21 @@ namespace Ekub.Infrastructure.Migrations
                     b.Property<int>("RecordedBy")
                         .HasColumnType("integer");
 
+                    b.Property<DateTime?>("ReviewedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int?>("ReviewedByMemberId")
+                        .HasColumnType("integer");
+
                     b.Property<int>("RoundId")
                         .HasColumnType("integer");
 
+                    b.Property<int>("Status")
+                        .HasColumnType("integer");
+
                     b.Property<string>("TransactionId")
-                        .HasColumnType("text");
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
 
                     b.HasKey("Id");
 
@@ -210,7 +225,10 @@ namespace Ekub.Infrastructure.Migrations
 
                     b.HasIndex("RecordedBy");
 
-                    b.HasIndex("RoundId");
+                    b.HasIndex("ReviewedByMemberId");
+
+                    b.HasIndex("RoundId", "MemberId")
+                        .IsUnique();
 
                     b.ToTable("Payments");
                 });
@@ -243,13 +261,14 @@ namespace Ekub.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CircleId");
-
                     b.HasIndex("MemberId");
 
                     b.HasIndex("RecordedBy");
 
                     b.HasIndex("RoundId")
+                        .IsUnique();
+
+                    b.HasIndex("CircleId", "MemberId")
                         .IsUnique();
 
                     b.ToTable("Payouts");
@@ -286,9 +305,10 @@ namespace Ekub.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CircleId");
-
                     b.HasIndex("ReceiverMemberId");
+
+                    b.HasIndex("CircleId", "RoundNumber")
+                        .IsUnique();
 
                     b.ToTable("Rounds");
                 });
@@ -354,6 +374,10 @@ namespace Ekub.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("Ekub.Domain.Entities.Member", "ReviewedByMember")
+                        .WithMany()
+                        .HasForeignKey("ReviewedByMemberId");
+
                     b.HasOne("Ekub.Domain.Entities.Round", "Round")
                         .WithMany("Payments")
                         .HasForeignKey("RoundId")
@@ -365,6 +389,8 @@ namespace Ekub.Infrastructure.Migrations
                     b.Navigation("Member");
 
                     b.Navigation("RecordedByMember");
+
+                    b.Navigation("ReviewedByMember");
 
                     b.Navigation("Round");
                 });

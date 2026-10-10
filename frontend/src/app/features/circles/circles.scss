@@ -101,6 +101,24 @@
   gap: 20px;
 }
 
+.circle-section {
+  margin-bottom: 36px;
+}
+
+.section-heading {
+  margin: 0 0 16px;
+
+  h2 {
+    margin: 0;
+    font-size: 22px;
+  }
+
+  p {
+    margin: 6px 0 0;
+    color: #666;
+  }
+}
+
 .circle-card {
   height: 100%;
   display: flex;
@@ -147,6 +165,14 @@
 
 .status {
   margin-top: 20px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.closed-message {
+  color: #666;
+  font-size: 13px;
 }
 
 .join-panel {

@@ -35,6 +35,51 @@
 
   }
 
+  @if (lockSuccessMsg()) {
+    <mat-card class="success-card">
+      <mat-card-content>
+        <mat-icon>lock</mat-icon>
+        <span>{{ lockSuccessMsg() }}</span>
+      </mat-card-content>
+    </mat-card>
+  }
+
+  @if (lockError()) {
+    <mat-card class="error-card">
+      <mat-card-content>
+        <mat-icon>error_outline</mat-icon>
+        <span>{{ lockError() }}</span>
+      </mat-card-content>
+    </mat-card>
+  }
+
+  @if (roundActionSuccess()) {
+    <mat-card class="success-card">
+      <mat-card-content>
+        <mat-icon>play_circle</mat-icon>
+        <span>{{ roundActionSuccess() }}</span>
+      </mat-card-content>
+    </mat-card>
+  }
+
+  @if (roundActionError()) {
+    <mat-card class="error-card">
+      <mat-card-content>
+        <mat-icon>error_outline</mat-icon>
+        <span>{{ roundActionError() }}</span>
+      </mat-card-content>
+    </mat-card>
+  }
+
+  @if (roundsError()) {
+    <mat-card class="error-card">
+      <mat-card-content>
+        <mat-icon>error_outline</mat-icon>
+        <span>{{ roundsError() }}</span>
+      </mat-card-content>
+    </mat-card>
+  }
+
   <!-- Success Notification -->
   @if (joinSuccessMsg()) {
 
@@ -80,7 +125,7 @@
   <!-- Circles List -->
   @if (!loading() && !error()) {
 
-    @if (circles().length === 0) {
+    @if (!hasCirclesToShow()) {
 
       <mat-card class="empty-card">
 
@@ -88,10 +133,10 @@
 
           <mat-icon>groups</mat-icon>
 
-          <h2>No circles found</h2>
+          <h2>No circles available</h2>
 
           <p>
-            There are no active circles yet. Create one to get started!
+            You have not joined any circles, and there are no open circles to join yet.
           </p>
 
           <a
@@ -108,11 +153,17 @@
 
     } @else {
 
-      <div class="circles-grid">
+      @for (section of circleSections(); track section.title) {
+        @if (section.circles.length > 0) {
+          <section class="circle-section">
+            <div class="section-heading">
+              <h2>{{ section.title }}</h2>
+              <p>{{ section.description }}</p>
+            </div>
 
-        @for (circle of circles(); track circle.id) {
-
-          <mat-card class="circle-card">
+            <div class="circles-grid">
+              @for (circle of section.circles; track circle.id) {
+                <mat-card class="circle-card">
 
             <mat-card-header>
 
@@ -184,11 +235,14 @@
                 <mat-chip>
                   {{ circle.status || 'NotStarted' }}
                 </mat-chip>
+                @if (circle.status !== 'NotStarted') {
+                  <span class="closed-message">This circle is closed to new members.</span>
+                }
 
               </div>
 
               <!-- Join Circle Panel -->
-              @if (joiningCircleId() === circle.id) {
+              @if (circle.status === 'NotStarted' && joiningCircleId() === circle.id) {
 
                 <div class="join-panel">
                   <h4>Join {{ circle.name }}</h4>
@@ -229,6 +283,29 @@
 
             <mat-card-actions>
 
+              @if (isOrganizer(circle) && circle.status === 'NotStarted') {
+                <button
+                  mat-button
+                  type="button"
+                  (click)="lockCircle(circle)"
+                  [disabled]="lockingCircleId() === circle.id">
+                  <mat-icon>lock</mat-icon>
+                  {{ lockingCircleId() === circle.id ? 'Locking...' : 'Lock Circle' }}
+                </button>
+              }
+
+              @if (canStartRound(circle)) {
+                <button
+                  mat-flat-button
+                  color="primary"
+                  type="button"
+                  (click)="startRound(circle)"
+                  [disabled]="roundActionCircleId() === circle.id">
+                  <mat-icon>play_arrow</mat-icon>
+                  {{ roundActionCircleId() === circle.id ? 'Starting...' : 'Start / Open Round' }}
+                </button>
+              }
+
               <a
                 mat-button
                 [routerLink]="['/circles', circle.id]">
@@ -241,18 +318,19 @@
                 color="accent"
                 type="button"
                 (click)="openJoinForm(circle)"
-                [disabled]="isJoined(circle.id)">
+                [disabled]="!canJoin(circle)">
                 <mat-icon>{{ isJoined(circle.id) ? 'check_circle' : 'person_add' }}</mat-icon>
-                {{ isJoined(circle.id) ? 'Joined' : 'Join Circle' }}
+                {{ isJoined(circle.id) ? 'Joined' : circle.status === 'NotStarted' ? 'Join Circle' : 'Closed' }}
               </button>
 
             </mat-card-actions>
 
-          </mat-card>
-
+                </mat-card>
+              }
+            </div>
+          </section>
         }
-
-      </div>
+      }
 
     }
 

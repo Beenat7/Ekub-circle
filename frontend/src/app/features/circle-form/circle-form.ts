@@ -37,10 +37,9 @@ export class CircleForm {
 
   readonly circleForm = this.formBuilder.nonNullable.group({
     name: ['', [Validators.required, Validators.minLength(2)]],
-    contributionAmount: [444, [Validators.required, Validators.min(1)]],
-    maxMembers: [222, [Validators.required, Validators.min(2)]],
-    contributionIntervalDays: [3, [Validators.required, Validators.min(1)]],
-    organizerId: [1, [Validators.required, Validators.min(1)]]
+    contributionAmount: [0, [Validators.required, Validators.min(1)]],
+    maxMembers: [0, [Validators.required, Validators.min(2)]],
+    contributionIntervalDays: [0, [Validators.required, Validators.min(1)]]
   });
 
   onSubmit(): void {
@@ -53,13 +52,19 @@ export class CircleForm {
     this.error.set(null);
 
     const raw = this.circleForm.getRawValue();
+    const organizerId = Number(localStorage.getItem('memberId'));
+    if (!Number.isInteger(organizerId) || organizerId < 1) {
+      this.error.set('Please log in again before creating a circle.');
+      this.loading.set(false);
+      return;
+    }
 
     const request: CreateCircleRequest = {
       name: raw.name.trim(),
       contributionAmount: Number(raw.contributionAmount),
       maxMembers: Number(raw.maxMembers),
       contributionIntervalDays: Number(raw.contributionIntervalDays),
-      organizerId: Number(raw.organizerId)
+      organizerId
     };
 
     this.circleService.create(request).subscribe({

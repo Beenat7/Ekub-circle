@@ -3,7 +3,7 @@
   <h1>Payments</h1>
 
   <p class="subtitle">
-    Record your contribution for an open round and review your payment history.
+    Submit transfer details for open rounds. Contributions are counted after the circle creator approves them.
   </p>
 
   @if (error) {
@@ -13,17 +13,91 @@
     <p class="success-message">{{ success }}</p>
   }
 
+  @if (organizerCircles.length > 0) {
+    <section class="organizer-rounds">
+      <h2>Open a circle round</h2>
+      <p>Only the creator can open rounds. After a payout, the next round is available once the contribution interval has passed.</p>
+      @for (circle of organizerCircles; track circle.id) {
+        <div class="round-contribution">
+          <div>
+            <strong>{{ circle.name }} · Circle #{{ circle.id }}</strong>
+            @if (latestRound(circle.id); as lastRound) {
+              @if (lastRound.status === 'open') {
+                <p>Round {{ lastRound.roundNumber }} is currently open.</p>
+              } @else if (lastRound.completedAt) {
+                <p>Next round can open from {{ nextRoundEligibleAt(circle) | date:'medium' }}.</p>
+              }
+            } @else {
+              <p>Locked and ready for its first round.</p>
+            }
+          </div>
+          @if (canOpenNextRound(circle)) {
+            <button
+              type="button"
+              (click)="openNextRound(circle)"
+              [disabled]="isOpeningCircle(circle)">
+              {{ isOpeningCircle(circle) ? 'Opening...' : 'Open next round' }}
+            </button>
+          }
+        </div>
+      }
+    </section>
+  }
+
+  @if (pendingPayments.length > 0 || organizerCircles.length > 0) {
+    <section class="payment-review">
+      <h2>Payments awaiting your review</h2>
+      @if (pendingPayments.length === 0) {
+        <p>There are no submitted payments waiting for approval.</p>
+      } @else {
+        <div class="payment-table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>Circle / Round</th>
+                <th>Member</th>
+                <th>Amount</th>
+                <th>Bank / Provider</th>
+                <th>Transaction ID</th>
+                <th>Submitted</th>
+                <th>Review</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (payment of pendingPayments; track payment.id) {
+                <tr>
+                  <td>{{ payment.circleName }} · Round {{ payment.roundId }}</td>
+                  <td>{{ payment.memberName }} (#{{ payment.memberId }})</td>
+                  <td>{{ payment.amount }} ETB</td>
+                  <td>{{ payment.bankName }}</td>
+                  <td>{{ payment.transactionId }}</td>
+                  <td>{{ payment.paidAt | date:'medium' }}</td>
+                  <td class="review-actions">
+                    <button
+                      type="button"
+                      (click)="reviewPayment(payment, true)"
+                      [disabled]="busyPaymentId === payment.id">
+                      Approve
+                    </button>
+                    <button
+                      type="button"
+                      class="reject-button"
+                      (click)="reviewPayment(payment, false)"
+                      [disabled]="busyPaymentId === payment.id">
+                      Reject
+                    </button>
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      }
+    </section>
+  }
+
   <section class="round-contributions">
     <h2>Open rounds</h2>
-    <label>
-      Payment method
-      <select [(ngModel)]="paymentMethod">
-        <option value="Cash">Cash</option>
-        <option value="BankTransfer">Bank transfer</option>
-        <option value="MobileMoney">Mobile money</option>
-        <option value="Other">Other</option>
-      </select>
-    </label>
 
     @if (loading) {
       <p>Loading open rounds...</p>
@@ -34,12 +108,43 @@
             <strong>Circle #{{ round.circleId }} · Round {{ round.roundNumber }}</strong>
             <p>Contribution: {{ round.contributionAmount }} ETB · Due {{ round.endDate | date:'mediumDate' }}</p>
           </div>
-          <button
-            type="button"
-            (click)="recordPayment(round)"
-            [disabled]="busyRoundId === round.id">
-            {{ busyRoundId === round.id ? 'Recording...' : 'Record payment' }}
-          </button>
+          @if (selectedRoundId !== round.id) {
+            <button type="button" (click)="openPaymentForm(round)">Submit payment</button>
+          }
+          @if (selectedRoundId === round.id) {
+            <div class="payment-form">
+              <label>
+                Amount (ETB)
+                <input type="number" min="0.01" step="0.01" [(ngModel)]="paymentAmount" />
+              </label>
+              <label>
+                Bank or payment provider
+                <input type="text" maxlength="160" [(ngModel)]="bankName" required />
+              </label>
+              <label>
+                Transaction ID
+                <input type="text" maxlength="200" [(ngModel)]="transactionId" required />
+              </label>
+              <label>
+                Payment method
+                <select [(ngModel)]="paymentMethod">
+                  <option value="BankTransfer">Bank transfer</option>
+                  <option value="MobileMoney">Mobile money</option>
+                  <option value="Cash">Cash</option>
+                  <option value="Other">Other</option>
+                </select>
+              </label>
+              <div class="form-actions">
+                <button type="button" (click)="selectedRoundId = null">Cancel</button>
+                <button
+                  type="button"
+                  (click)="recordPayment(round)"
+                  [disabled]="busyRoundId === round.id">
+                  {{ busyRoundId === round.id ? 'Submitting...' : 'Send for approval' }}
+                </button>
+              </div>
+            </div>
+          }
         </div>
       } @empty {
         <p>No unpaid open rounds are available.</p>
@@ -61,6 +166,7 @@
           <th>Amount</th>
           <th>Payment Date</th>
           <th>Method</th>
+          <th>Bank / Provider</th>
           <th>Transaction</th>
           <th>Status</th>
         </tr>
@@ -84,6 +190,8 @@
             <td>{{ payment.paidAt | date:'medium' }}</td>
 
             <td>{{ payment.paymentMethod }}</td>
+
+            <td>{{ payment.bankName }}</td>
 
             <td>
               {{ payment.transactionId || '—' }}

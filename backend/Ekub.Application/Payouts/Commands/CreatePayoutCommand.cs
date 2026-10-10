@@ -11,9 +11,9 @@ public sealed record CreatePayoutCommand(CreatePayoutRequest Request) : IRequest
 
 public sealed class CreatePayoutCommandHandler : IRequestHandler<CreatePayoutCommand, Result<PayoutResponse>>
 {
-    private readonly IPayoutStore _store;
+    private readonly IRoundLifecycleStore _store;
 
-    public CreatePayoutCommandHandler(IPayoutStore store)
+    public CreatePayoutCommandHandler(IRoundLifecycleStore store)
     {
         _store = store;
     }
@@ -32,15 +32,19 @@ public sealed class CreatePayoutCommandHandler : IRequestHandler<CreatePayoutCom
             RecordedBy = req.RecordedBy
         };
 
-        await _store.AddAsync(payout, cancellationToken);
+        var addResult = await _store.AddPayoutAndAdvanceRoundAsync(payout, cancellationToken);
+        if (!addResult.IsSuccess)
+        {
+            return Result<PayoutResponse>.Failure(addResult.Error!, addResult.StatusCode);
+        }
 
         var res = new PayoutResponse(
-            payout.Id,
-            payout.CircleId,
-            payout.RoundId,
-            payout.MemberId,
-            payout.Amount,
-            payout.PaidAt,
+            addResult.Value!.Id,
+            addResult.Value.CircleId,
+            addResult.Value.RoundId,
+            addResult.Value.MemberId,
+            addResult.Value.Amount,
+            addResult.Value.PaidAt,
             "completed"
         );
 

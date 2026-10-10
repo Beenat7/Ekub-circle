@@ -55,6 +55,12 @@ export class Login {
     this.auth.login(data).subscribe({
       next: (response) => {
         localStorage.setItem('memberId', String(response.id));
+        localStorage.setItem(
+          'memberName',
+          [response.firstName, response.middleName, response.lastName]
+            .filter((part) => part.trim().length > 0)
+            .join(' ')
+        );
 
         this.router.navigate(['/dashboard']);
       },

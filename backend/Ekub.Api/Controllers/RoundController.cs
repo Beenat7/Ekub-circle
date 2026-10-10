@@ -26,7 +26,7 @@ public sealed class RoundController(IMediator mediator) : ControllerBase
         return StatusCode(result.StatusCode, result.Value);
     }
 
-    [HttpGet("{id:int}")]
+    [HttpGet("{id:int}", Name = "GetRoundById")]
     [ProducesResponseType(typeof(Ekub.Application.Rounds.DTOs.RoundResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> GetById(int id, CancellationToken cancellationToken)

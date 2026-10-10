@@ -11,4 +11,5 @@ export interface Round {
   paymentsReceived: number;
   contributionAmount: number;
   expectedPayoutAmount: number;
+  completedAt?: string | null;
 }

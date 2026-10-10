@@ -12,9 +12,9 @@ public sealed record AddCircleMemberCommand(AddCircleMemberRequest Request) : IR
 public sealed class AddCircleMemberCommandHandler
     : IRequestHandler<AddCircleMemberCommand, Result<CircleMemberResponse>>
 {
-    private readonly ICircleMemberStore _store;
+    private readonly IRoundLifecycleStore _store;
 
-    public AddCircleMemberCommandHandler(ICircleMemberStore store)
+    public AddCircleMemberCommandHandler(IRoundLifecycleStore store)
     {
         _store = store;
     }
@@ -32,15 +32,19 @@ public sealed class AddCircleMemberCommandHandler
             JoinedAt = DateTime.UtcNow
         };
 
-        await _store.AddAsync(cm, cancellationToken);
+        var addResult = await _store.AddCircleMemberAsync(cm, cancellationToken);
+        if (!addResult.IsSuccess)
+        {
+            return Result<CircleMemberResponse>.Failure(addResult.Error!, addResult.StatusCode);
+        }
 
         var response = new CircleMemberResponse(
-            cm.Id,
-            cm.CircleId,
-            cm.MemberId,
-            $"Member #{cm.MemberId}",
-            cm.OrderNumber,
-            cm.JoinedAt
+            addResult.Value!.Id,
+            addResult.Value.CircleId,
+            addResult.Value.MemberId,
+            $"Member #{addResult.Value.MemberId}",
+            addResult.Value.OrderNumber,
+            addResult.Value.JoinedAt
         );
 
         return Result<CircleMemberResponse>.Success(response, StatusCodes.Status201Created);

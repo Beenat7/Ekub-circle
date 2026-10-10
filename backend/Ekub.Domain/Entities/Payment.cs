@@ -22,9 +22,18 @@ public class Payment
 
     public PaymentMethod PaymentMethod { get; set; }
 
+    public required string BankName { get; set; }
+
     public string? TransactionId { get; set; }
 
     public DateTime PaidAt { get; set; } = DateTime.UtcNow;
+
+    public PaymentStatus Status { get; set; } = PaymentStatus.Pending;
+
+    public int? ReviewedByMemberId { get; set; }
+    public Member? ReviewedByMember { get; set; }
+
+    public DateTime? ReviewedAt { get; set; }
 
     // Member who recorded/verified the payment
     public int RecordedBy { get; set; }

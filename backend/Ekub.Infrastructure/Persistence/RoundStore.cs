@@ -12,7 +12,9 @@ public sealed class RoundStore(EkubDbContext dbContext) : IRoundStore
         return dbContext.Rounds
             .AsNoTracking()
             .Include(r => r.Circle)
+                .ThenInclude(c => c.CircleMembers)
             .Include(r => r.ReceiverMember)
+            .Include(r => r.Payments)
             .ToListAsync(cancellationToken);
     }
 
@@ -20,6 +22,9 @@ public sealed class RoundStore(EkubDbContext dbContext) : IRoundStore
     {
         return dbContext.Rounds
             .AsNoTracking()
+            .Include(r => r.Circle)
+                .ThenInclude(c => c.CircleMembers)
+            .Include(r => r.Payments)
             .Where(r => r.CircleId == circleId)
             .ToListAsync(cancellationToken);
     }
@@ -28,6 +33,9 @@ public sealed class RoundStore(EkubDbContext dbContext) : IRoundStore
     {
         return dbContext.Rounds
             .AsNoTracking()
+            .Include(r => r.Circle)
+                .ThenInclude(c => c.CircleMembers)
+            .Include(r => r.Payments)
             .FirstOrDefaultAsync(r => r.Id == id, cancellationToken);
     }
 

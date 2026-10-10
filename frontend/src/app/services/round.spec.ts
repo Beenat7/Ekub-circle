@@ -1,12 +1,16 @@
 import { TestBed } from '@angular/core/testing';
-import { Round } from './round';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { RoundService } from './round';
 
-describe('Round', () => {
-  let service: Round;
+describe('RoundService', () => {
+  let service: RoundService;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
-    service = TestBed.inject(Round);
+    TestBed.configureTestingModule({
+      providers: [provideHttpClient(), provideHttpClientTesting()]
+    });
+    service = TestBed.inject(RoundService);
   });
 
   it('should be created', () => {

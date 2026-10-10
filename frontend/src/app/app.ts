@@ -23,6 +23,8 @@ export class App {
   );
 
   logout(): void {
+    localStorage.removeItem('memberId');
+    localStorage.removeItem('memberName');
     this.router.navigate(['/login']);
   }
 }

@@ -181,11 +181,39 @@
 
 .circle-item {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
 
   padding: 15px 0;
 
   border-bottom: 1px solid #eeeae1;
+}
+
+.round-hint {
+  flex-basis: 100%;
+  margin: 4px 0 0 57px;
+  color: #777;
+  font-size: 12px;
+}
+
+.start-round-button {
+  margin-left: 8px;
+  padding: 8px 12px;
+  border: 0;
+  border-radius: 7px;
+  background: #145c46;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+
+  &:disabled {
+    cursor: wait;
+    opacity: 0.6;
+  }
+}
+
+.success-message {
+  color: #166534;
 }
 
 .circle-item:last-child {

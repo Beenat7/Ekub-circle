@@ -1,0 +1,137 @@
+@baseUrl = http://localhost:5500/api/v1
+
+### Create a circle (the organizer is added automatically in position 1)
+POST {{baseUrl}}/circles
+Content-Type: application/json
+
+{
+  "name": "Round lifecycle demo",
+  "contributionAmount": 500,
+  "maxMembers": 3,
+  "contributionIntervalDays": 30,
+  "organizerId": 1
+}
+
+### Join member 2 in position 2
+POST {{baseUrl}}/circle-members
+Content-Type: application/json
+
+{
+  "circleId": 1,
+  "memberId": 2,
+  "orderNumber": 2
+}
+
+### Lock the circle as its organizer; further joins are rejected
+PATCH {{baseUrl}}/circles/1/lock
+Content-Type: application/json
+
+{
+  "memberId": 1
+}
+
+### Open round 1 as the organizer
+POST {{baseUrl}}/circles/1/rounds/open
+Content-Type: application/json
+
+{
+  "memberId": 1
+}
+
+### Submit member 1's transfer details; status starts as pending
+POST {{baseUrl}}/payments
+Content-Type: application/json
+
+{
+  "circleId": 1,
+  "roundId": 1,
+  "memberId": 1,
+  "amount": 500,
+  "paymentMethod": "BankTransfer",
+  "bankName": "Example Bank",
+  "transactionId": "TX-001",
+  "recordedBy": 1
+}
+
+### Submit member 2's transfer details
+POST {{baseUrl}}/payments
+Content-Type: application/json
+
+{
+  "circleId": 1,
+  "roundId": 1,
+  "memberId": 2,
+  "amount": 500,
+  "paymentMethod": "BankTransfer",
+  "bankName": "Example Bank",
+  "transactionId": "TX-002",
+  "recordedBy": 2
+}
+
+### List pending payments for circle organizer 1
+GET {{baseUrl}}/payments/pending/organizer/1
+
+### Approve payment 1 after checking the bank transfer
+PATCH {{baseUrl}}/payments/1/review
+Content-Type: application/json
+
+{
+  "reviewerId": 1,
+  "approve": true
+}
+
+### Reject a payment by setting approve to false; member can resubmit it
+PATCH {{baseUrl}}/payments/2/review
+Content-Type: application/json
+
+{
+  "reviewerId": 1,
+  "approve": false
+}
+
+### Member 2 can correct and resubmit the rejected transfer
+POST {{baseUrl}}/payments
+Content-Type: application/json
+
+{
+  "circleId": 1,
+  "roundId": 1,
+  "memberId": 2,
+  "amount": 500,
+  "paymentMethod": "BankTransfer",
+  "bankName": "Example Bank",
+  "transactionId": "TX-002-CORRECTED",
+  "recordedBy": 2
+}
+
+### Approve the corrected payment
+PATCH {{baseUrl}}/payments/2/review
+Content-Type: application/json
+
+{
+  "reviewerId": 1,
+  "approve": true
+}
+
+### Record the full-pot payout once every contribution is approved
+POST {{baseUrl}}/payouts
+Content-Type: application/json
+
+{
+  "circleId": 1,
+  "roundId": 1,
+  "memberId": 1,
+  "amount": 1000,
+  "recordedBy": 1
+}
+
+### Open round 2 after the configured interval from round 1 completion
+POST {{baseUrl}}/circles/1/rounds/open
+Content-Type: application/json
+
+{
+  "memberId": 1
+}
+
+### List rounds and verified payment progress
+GET {{baseUrl}}/rounds/circle/1

@@ -11,9 +11,9 @@ public sealed record CreatePaymentCommand(CreatePaymentRequest Request) : IReque
 
 public sealed class CreatePaymentCommandHandler : IRequestHandler<CreatePaymentCommand, Result<PaymentResponse>>
 {
-    private readonly IPaymentStore _store;
+    private readonly IRoundLifecycleStore _store;
 
-    public CreatePaymentCommandHandler(IPaymentStore store)
+    public CreatePaymentCommandHandler(IRoundLifecycleStore store)
     {
         _store = store;
     }
@@ -22,7 +22,29 @@ public sealed class CreatePaymentCommandHandler : IRequestHandler<CreatePaymentC
     {
         var req = command.Request;
 
-        Enum.TryParse<PaymentMethod>(req.PaymentMethod, true, out var method);
+        if (!Enum.TryParse<PaymentMethod>(req.PaymentMethod, true, out var method) ||
+            !Enum.IsDefined(method))
+        {
+            return Result<PaymentResponse>.Failure(
+                "Payment method is invalid.",
+                StatusCodes.Status400BadRequest);
+        }
+
+        if (string.IsNullOrWhiteSpace(req.BankName) ||
+            string.IsNullOrWhiteSpace(req.TransactionId))
+        {
+            return Result<PaymentResponse>.Failure(
+                "Bank or provider name and transaction ID are required.",
+                StatusCodes.Status400BadRequest);
+        }
+
+        if (req.BankName.Trim().Length > 160 ||
+            req.TransactionId.Trim().Length > 200)
+        {
+            return Result<PaymentResponse>.Failure(
+                "Bank or provider name must be at most 160 characters and transaction ID at most 200 characters.",
+                StatusCodes.Status400BadRequest);
+        }
 
         var payment = new Payment
         {
@@ -31,24 +53,35 @@ public sealed class CreatePaymentCommandHandler : IRequestHandler<CreatePaymentC
             MemberId = req.MemberId,
             Amount = req.Amount,
             PaymentMethod = method,
-            TransactionId = req.TransactionId,
+            BankName = req.BankName.Trim(),
+            TransactionId = req.TransactionId.Trim(),
             PaidAt = DateTime.UtcNow,
             RecordedBy = req.RecordedBy,
-            RecordedAt = DateTime.UtcNow
+            RecordedAt = DateTime.UtcNow,
+            Status = PaymentStatus.Pending
         };
 
-        await _store.AddAsync(payment, cancellationToken);
+        var addResult = await _store.AddPaymentAsync(payment, cancellationToken);
+        if (!addResult.IsSuccess)
+        {
+            return Result<PaymentResponse>.Failure(addResult.Error!, addResult.StatusCode);
+        }
 
         var res = new PaymentResponse(
-            payment.Id,
-            payment.CircleId,
-            payment.RoundId,
-            payment.MemberId,
-            payment.Amount,
-            payment.PaymentMethod.ToString(),
-            payment.TransactionId,
-            payment.PaidAt,
-            "approved"
+            addResult.Value!.Id,
+            addResult.Value.CircleId,
+            addResult.Value.RoundId,
+            addResult.Value.MemberId,
+            addResult.Value.Amount,
+            addResult.Value.PaymentMethod.ToString(),
+            addResult.Value.TransactionId,
+            addResult.Value.PaidAt,
+            addResult.Value.Status.ToString().ToLowerInvariant(),
+            addResult.Value.BankName,
+            addResult.Value.Circle.Name,
+            $"{addResult.Value.Member.FirstName} {addResult.Value.Member.MiddleName} {addResult.Value.Member.LastName}",
+            addResult.Value.ReviewedByMemberId,
+            addResult.Value.ReviewedAt
         );
 
         return Result<PaymentResponse>.Success(res, StatusCodes.Status201Created);

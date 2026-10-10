@@ -38,3 +38,15 @@ C:\Users\user\Desktop\test\Ekub-circle\backend\Ekub.Infrastructure\obj\Debug\net
 C:\Users\user\Desktop\test\Ekub-circle\backend\Ekub.Infrastructure\obj\Debug\net10.0\Ekub.Infrastructure.pdb
 C:\Users\user\Desktop\test\Ekub-circle\backend\Ekub.Infrastructure\obj\Debug\net10.0\Ekub.Infrastructure.genruntimeconfig.cache
 C:\Users\user\Desktop\test\Ekub-circle\backend\Ekub.Infrastructure\obj\Debug\net10.0\ref\Ekub.Infrastructure.dll
+C:\Users\user\AppData\Local\Temp\EkubRoundBuild\Ekub.Infrastructure.deps.json
+C:\Users\user\AppData\Local\Temp\EkubRoundBuild\Ekub.Infrastructure.runtimeconfig.json
+C:\Users\user\AppData\Local\Temp\EkubRoundBuild\Ekub.Infrastructure.dll
+C:\Users\user\AppData\Local\Temp\EkubRoundBuild\Ekub.Infrastructure.pdb
+C:\Users\user\AppData\Local\Temp\EkubBuild\Debug\net10.0\Ekub.Infrastructure.deps.json
+C:\Users\user\AppData\Local\Temp\EkubBuild\Debug\net10.0\Ekub.Infrastructure.runtimeconfig.json
+C:\Users\user\AppData\Local\Temp\EkubBuild\Debug\net10.0\Ekub.Infrastructure.dll
+C:\Users\user\AppData\Local\Temp\EkubBuild\Debug\net10.0\Ekub.Infrastructure.pdb
+C:\Users\user\AppData\Local\Temp\EkubEfBuild\Debug\net10.0\Ekub.Infrastructure.deps.json
+C:\Users\user\AppData\Local\Temp\EkubEfBuild\Debug\net10.0\Ekub.Infrastructure.runtimeconfig.json
+C:\Users\user\AppData\Local\Temp\EkubEfBuild\Debug\net10.0\Ekub.Infrastructure.dll
+C:\Users\user\AppData\Local\Temp\EkubEfBuild\Debug\net10.0\Ekub.Infrastructure.pdb

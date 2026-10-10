@@ -40,8 +40,26 @@
   }
 }
 
+.organizer-rounds,
+.payment-review {
+  margin-bottom: 28px;
+  padding: 20px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+
+  h2 {
+    margin-top: 0;
+  }
+
+  > p {
+    color: #64748b;
+  }
+}
+
 .round-contribution {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
   gap: 16px;
@@ -51,6 +69,51 @@
   p {
     margin: 6px 0 0;
     color: #64748b;
+  }
+
+  .payment-form {
+    flex-basis: 100%;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 12px;
+    padding: 16px;
+    background: #f8fafc;
+    border-radius: 8px;
+
+    label {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      color: #475569;
+      font-size: 14px;
+    }
+
+    input,
+    select {
+      min-width: 0;
+      padding: 9px;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+    }
+
+    .form-actions {
+      display: flex;
+      grid-column: 1 / -1;
+      justify-content: flex-end;
+      gap: 8px;
+    }
+  }
+
+  .review-actions {
+    white-space: nowrap;
+
+    button + button {
+      margin-left: 8px;
+    }
+
+    .reject-button {
+      background: #991b1b;
+    }
   }
 
   button {

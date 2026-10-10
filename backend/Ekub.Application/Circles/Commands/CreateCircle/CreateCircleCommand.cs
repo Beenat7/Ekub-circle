@@ -14,11 +14,11 @@ public sealed record CreateCircleCommand(
 public sealed class CreateCircleCommandHandler
     : IRequestHandler<CreateCircleCommand, Result<CircleResponse>>
 {
-    private readonly ICircleStore _circleStore;
+    private readonly IRoundLifecycleStore _roundLifecycleStore;
 
-    public CreateCircleCommandHandler(ICircleStore circleStore)
+    public CreateCircleCommandHandler(IRoundLifecycleStore roundLifecycleStore)
     {
-        _circleStore = circleStore;
+        _roundLifecycleStore = roundLifecycleStore;
     }
 
     public async Task<Result<CircleResponse>> Handle(
@@ -38,7 +38,15 @@ public sealed class CreateCircleCommandHandler
             CreatedAt = DateTime.UtcNow
         };
 
-        await _circleStore.AddAsync(circle, cancellationToken);
+        var createResult = await _roundLifecycleStore.AddCircleWithOrganizerAsync(
+            circle,
+            cancellationToken);
+        if (!createResult.IsSuccess)
+        {
+            return Result<CircleResponse>.Failure(createResult.Error!, createResult.StatusCode);
+        }
+
+        circle = createResult.Value!;
 
         var response = new CircleResponse(
             circle.Id,

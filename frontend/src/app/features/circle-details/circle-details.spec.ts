@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideRouter } from '@angular/router';
 import { CircleDetails } from './circle-details';
 
 describe('CircleDetails', () => {
@@ -8,6 +9,7 @@ describe('CircleDetails', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [CircleDetails],
+      providers: [provideRouter([])]
     }).compileComponents();
 
     fixture = TestBed.createComponent(CircleDetails);
